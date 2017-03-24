@@ -5,7 +5,11 @@
  */
 package my.scheduler;
 import my.classes.Process;
+import my.classes.List;
 import java.util.*;
+import static my.classes.List.model;
+import static my.classes.List.processList;
+
 /**
  *
  * @author amr
@@ -19,6 +23,7 @@ public class frame1 extends javax.swing.JFrame {
         initComponents();
         jLabel4.setVisible(false);
         jTextField4.setVisible(false);
+        model.addElement("Name");
     }
 
     /**
@@ -150,11 +155,6 @@ public class frame1 extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -236,15 +236,24 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         jLabel5.setText("");
-        String name,arrival,burst;
+        String name,arrival,burst,priority;
         name = jTextField1.getText();
         arrival = jTextField2.getText();
         burst = jTextField3.getText();
+        priority = jTextField4.getText();
         Process p = new Process();
         try{
             p.setName(name);
             p.setArrival(Double.parseDouble(arrival));
             p.setBurst(Double.parseDouble(burst));
+            String choice = jComboBox1.getSelectedItem().toString();
+            if (choice.equals("Priority")){
+                p.setPriority(Integer.parseInt(priority));
+            }
+            processList.add(p);
+            model.addElement(name);
+            jList1.setModel(model);
+
             
         }
         catch(NumberFormatException e){
