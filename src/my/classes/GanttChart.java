@@ -5,20 +5,18 @@
  */
 
 package my.classes;
-import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.TimerTask;
+import java.util.Timer;
 //import javafx.beans.value.ChangeListener;
 //import javafx.beans.value.ObservableValue;
 import javax.swing.JButton; 
 import javax.swing.JLabel;
 import javax.swing.JPanel; 
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
-import javax.swing.UIManager;
+import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 /**
@@ -29,7 +27,9 @@ public class GanttChart extends Thread
 {
     private Thread t;
     private JPanel panel;
+    float time =0;
     int size=0;
+    int location = 50;
     public GanttChart(JPanel p){
 
         panel = p;
@@ -40,51 +40,47 @@ public class GanttChart extends Thread
         label.setFont(new Font("Tahoma", Font.PLAIN, 16));
         panel.add(label);
     }
+    // duration is in seconds
+    public void drawPeriod(int duration , String name){
+        JButton b = new JButton(name);
+        b.setSize(0,50);
+        b.setLocation(location,100);
+        panel.add(b);
+        size = 0;
+        Timer timer = new Timer();
+        int sizeOfPeriod ;
+        sizeOfPeriod = duration*50;
+        TimerTask myTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (size > sizeOfPeriod)
+                    timer.cancel();
+                if (size %25 ==0){
+//                    System.out.println(location);
+                    String ti = Float.toString(time);
+                    JLabel l = new JLabel(ti);
+                    panel.add(l);
+                    l.setLocation(location,150);
+                    l.setSize(50,50);
+                    l.setFont(new Font("Tahoma", Font.PLAIN, 10));
+                    
+                    time += 0.5;
+                }
+                b.setSize(size,50);
+                size+=1;
+                location = location +1;
+                panel.setSize( location+300,300 );
+                panel.setPreferredSize(panel.getSize());
+            }
+};
+    timer.schedule(myTask, 10, 10);
+    }
     // This function takes a vector containing name of the process and the duration
-    public void run(LinkedList p,float totalDuration){
-        int location =0;
-//        System.out.println("hello amr");
-//        JButton x = new JButton("p1");
-//        x.setSize(50,50);
-//        x.setLocation(50,100);
-//        panel.add(x);
-//        int size =0;
-//        size=0;
-//        Timer timer;
-        
-        for (int i=0;i<2000;i+=50)
-        {
-            JButton block1 = new JButton("P1");
-            block1.setSize(50,50);
-            block1.setLocation(50+i,100);
-            location = 50 +i+100;
-            panel.add(block1);
-            panel.setSize(location+100,400);
+//    LinkedList p,float totalDuration
+    public void run(){
+//        panel.setLayout(new SpringLayout());
+        drawPeriod(30,"P1");
 
-        }
-//        timer = new Timer(20,new ActionListener(){
-//            @Override
-//            public void actionPerformed(ActionEvent e)
-//            {
-//                size =size +1;
-//                x.setSize(size,50);
-//                
-//            }
-//         
-//            
-//        });
-//       x.addChangeListener(new ChangeListener() {
-//      public void stateChanged(ChangeEvent ev) {
-//        System.out.println("ChangeEvent!");
-//        if (x.getWidth()>50)
-//            timer.stop();
-//      }
 
-//            
-//    });
-
-        
-
-        
     }
 }

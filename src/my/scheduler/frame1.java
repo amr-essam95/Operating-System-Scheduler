@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package my.scheduler;
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import my.classes.Process;
 import my.classes.List;
@@ -31,21 +32,14 @@ public class frame1 extends javax.swing.JFrame {
         } 
         catch (Exception ex) { 
             ex.printStackTrace(); 
-        }
+       }
         initComponents();
-//        jPanel3.setLayout(new GridLayout(1, 0));
         jLabel4.setVisible(false);
         jTextField4.setVisible(false);
         model.addElement("Name");
-//        JButton x = new JButton ("hello");
-//        x.setSize(50,50);
-//        jPanel3.add(x);
         GanttChart g = new GanttChart(jPanel3);
         g.start();
-//        JButton x = new JButton("p1");
-//        x.setLocation(50,100);
-//        x.setSize(50,50);
-//        jPanel3.add(x);
+//        add(jScrollPane2, BorderLayout.CENTER);
     }
 
     /**
@@ -180,6 +174,10 @@ public class frame1 extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jList1);
 
+        jScrollPane2.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jScrollPane2.setAutoscrolls(true);
+        jScrollPane2.setPreferredSize(getPreferredSize());
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -207,9 +205,9 @@ public class frame1 extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 438, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1286, Short.MAX_VALUE))
                         .addGap(77, 77, 77))))
         );
         jPanel1Layout.setVerticalGroup(
