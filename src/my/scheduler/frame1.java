@@ -6,16 +6,12 @@
 package my.scheduler;
 import my.classes.Process;
 import my.classes.List;
+import my.classes.GanttChart;
 import java.util.*;
 import static my.classes.List.model;
 import static my.classes.List.processList;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.general.PieDataset;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
+import java.io.*;
+import javax.swing.JButton; 
 
 /**
  *
@@ -31,6 +27,11 @@ public class frame1 extends javax.swing.JFrame {
         jLabel4.setVisible(false);
         jTextField4.setVisible(false);
         model.addElement("Name");
+//        JButton x = new JButton ("hello");
+//        x.setSize(50,50);
+//        jPanel3.add(x);
+        GanttChart g = new GanttChart();
+        g.draw(jPanel3);
     }
 
     /**
@@ -123,7 +124,7 @@ public class frame1 extends javax.swing.JFrame {
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField2)
                     .addComponent(jTextField1)
                     .addComponent(jTextField3)
@@ -172,7 +173,7 @@ public class frame1 extends javax.swing.JFrame {
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 194, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -183,30 +184,31 @@ public class frame1 extends javax.swing.JFrame {
                 .addGap(60, 60, 60)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(401, 401, 401)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(77, 77, 77))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(93, 93, 93)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 174, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         jComboBox1.getAccessibleContext().setAccessibleName("");
@@ -222,10 +224,10 @@ public class frame1 extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(189, 189, 189))
         );
 
         pack();
@@ -263,21 +265,52 @@ public class frame1 extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        DefaultPieDataset dataset = new DefaultPieDataset( );
-        dataset.setValue( "IPhone 5s" , new Double( 20 ) );  
-        dataset.setValue( "SamSung Grand" , new Double( 20 ) );   
-        dataset.setValue( "MotoG" , new Double( 40 ) );    
-        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
-        JFreeChart chart = ChartFactory.createPieChart(      
-         "Mobile Sales",  // chart title 
-         dataset,        // data    
-         true,           // include legend   
-         true, 
-         false);
-        jPanel3.setLayout(new java.awt.BorderLayout());
-        ChartPanel CP = new ChartPanel(chart);
-        jPanel3.add(CP);
-        jPanel3.validate();
+//        DefaultPieDataset dataset = new DefaultPieDataset( );
+//        dataset.setValue( "IPhone 5s" , new Double( 20 ) );  
+//        dataset.setValue( "SamSung Grand" , new Double( 20 ) );   
+//        dataset.setValue( "MotoG" , new Double( 40 ) );    
+//        dataset.setValue( "Nokia Lumia" , new Double( 10 ) );
+//        JFreeChart chart = ChartFactory.createPieChart(      
+//         "Mobile Sales",  // chart title 
+//         dataset,        // data    
+//         true,           // include legend   
+//         true, 
+//         false);
+//        jPanel3.setLayout(new java.awt.BorderLayout());
+//        ChartPanel CP = new ChartPanel(chart);
+//        jPanel3.add(CP);
+//        jPanel3.validate();
+/////////////////////////////////////////////////
+//        XYSeries team1_xy_data = new XYSeries("Team 1");
+//        team1_xy_data.add(1990, 45);
+//        team1_xy_data.add(1991, 16);
+//        team1_xy_data.add(1992, 80);
+//        team1_xy_data.add(1993, 1);
+//        team1_xy_data.add(1994, 6);
+//
+//        XYSeries team2_xy_data = new XYSeries("Team 2");
+//        team2_xy_data.add(1990, 2);
+//        team2_xy_data.add(1991, 10);
+//        team2_xy_data.add(1992, 60);
+//        team2_xy_data.add(1993, 60);
+//        team2_xy_data.add(1994, 18);
+//
+//        XYSeries team3_xy_data = new XYSeries("Team 3");
+//        team3_xy_data.add(1990, 15);
+//        team3_xy_data.add(1991, 5);
+//        team3_xy_data.add(1992, 14);
+//        team3_xy_data.add(1993, 18);
+//        team3_xy_data.add(1994, 25);
+//        XYSeriesCollection my_data_series= new XYSeriesCollection();
+//        // add series using addSeries method
+//        my_data_series.addSeries(team1_xy_data);
+//        my_data_series.addSeries(team2_xy_data);
+//        my_data_series.addSeries(team3_xy_data);
+//        JFreeChart chart=ChartFactory.createXYLineChart("Team - Number of Wins","Year","Win Count",my_data_series,PlotOrientation.VERTICAL,true,true,false);
+//        jPanel3.setLayout(new java.awt.BorderLayout());
+//        ChartPanel CP = new ChartPanel(chart);
+//        jPanel3.add(CP);
+//        jPanel3.validate();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
