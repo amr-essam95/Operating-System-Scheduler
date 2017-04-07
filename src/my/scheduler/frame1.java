@@ -37,6 +37,7 @@ public class frame1 extends javax.swing.JFrame {
         g = new GanttChart(jPanel3);
         jLabel4.setVisible(false);
         jTextField4.setVisible(false);
+        jButton5.setEnabled(false);
         model.addElement("Name");
         
     }
@@ -347,7 +348,6 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         FCFS x = new FCFS();
         x.schedule();
-        
         g.setProcess(processList);
         g.setPanel(jPanel3);
         g.start();
@@ -379,30 +379,23 @@ public class frame1 extends javax.swing.JFrame {
             processList.add(p);
             model.addElement(name);
             jList1.setModel(model);
-
-            
         }
         catch(NumberFormatException e){
            System.out.println("Please enter numbers in priority,burst time and arrival time");
            jLabel5.setText("Please enter numbers in priority,burst time and arrival time");
-        }
-//           jList1.setModel();
-        
-                
-        System.out.println(p.getBurst());
-        
-       
-        
+        }        
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jButton3.setEnabled(true);
+        jButton5.setEnabled(true);
         g.setState(0);
                    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jButton3.setEnabled(false);
+        jButton5.setEnabled(false);
         g.resumeDrawing();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -410,7 +403,7 @@ public class frame1 extends javax.swing.JFrame {
         jButton2.setEnabled(true);
         jComboBox1.setEnabled(true);
         if (!processList.isEmpty())
-            processList.removeFirst();
+            processList.clear();
         if (!model.isEmpty())
             model.removeAllElements();
         g.clearPanel();

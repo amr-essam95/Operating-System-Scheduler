@@ -28,16 +28,24 @@ public class FCFS extends Scheduler{
     Iterator it = processList.iterator();
     double timer = 0;
     LinkedList temp = new LinkedList();
-//    while (it.hasNext()){
-//        Process p = (Process) it.next();
-//        if (p.getArrival() <= timer){
-//            temp.add(p);
-//            timer += p.getBurst();
-//        }
-//        else {
-//            
-//        }
-//        
-//    }
+    while (it.hasNext()){
+        Process p = (Process) it.next();
+        if (p.getArrival() <= timer){
+            temp.add(p);
+            timer += p.getBurst();
+        }
+        else {
+            Process idle = new Process();
+            idle.setArrival(timer);
+            double idleTime = p.getArrival()-timer;
+            idle.setBurst(idleTime);
+            idle.setName("Idle");
+            temp.add(idle);
+            temp.add(p);
+            timer = timer + idleTime + p.getBurst();
+        }
+        
+    }
+    processList = temp;
     }
 }

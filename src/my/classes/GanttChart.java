@@ -23,13 +23,9 @@ public class GanttChart extends Thread
     double time =0;
     int size=0;
     int location = 25;
-    Timer timer;
     JButton b;
     JLabel interrupter;
-    int state = 1;
-    // state is 0 if thread is  not running 
-    // state is 1 if thread is running
-    // state is 2 to indicate deletion of all processes
+    int state = 1;                      // 0 for waiting , 1 for running , 2 for interruption
     
     public GanttChart(JPanel p){
         panel = p;    
@@ -42,13 +38,11 @@ public class GanttChart extends Thread
         initialPlace.setLocation(location,125);
         initialPlace.setSize(50,50);
         initialPlace.setFont(new Font("Tahoma", Font.PLAIN, 10));
-//        time+= 20;
     }
     public boolean draw(double sizeOfPeriod){
   
-        if (size > sizeOfPeriod){
-            System.out.println("finish");
-            String ti = String.format( "%.2f", (time-20)/1000.0 );
+        if (size > sizeOfPeriod){                                   // As long as the size is less than the intended size
+            String ti = String.format( "%.2f", (time-20)/1000.0 );  // labels are in seconds
             time -= 20.0;
             JLabel l = new JLabel(ti);
             panel.add(l);
@@ -57,12 +51,6 @@ public class GanttChart extends Thread
             l.setFont(new Font("Tahoma", Font.PLAIN, 10));
             return false;
         }
-        System.out.print(time);
-        System.out.print("     ");
-        System.out.print(sizeOfPeriod);
-        System.out.print("     ");
-        System.out.println(size);
-
         b.setSize(size,50);
         size+=1;
         time += 20;
@@ -72,10 +60,10 @@ public class GanttChart extends Thread
         return true;
     }
     public void run(){
-        state = 1;
+        state = 1;                              // state 1 means thread is running
         Iterator it = process.iterator();
-        panel.setVisible(true);
-        initializeTimeLine();
+        panel.setVisible(true);                 
+        initializeTimeLine();                   // create a label for the 0.0 in the timeline
         while(it.hasNext()){
             Process p =  (Process) it.next() ;
             b = new JButton(p.getName());
@@ -95,7 +83,7 @@ public class GanttChart extends Thread
                 if ( x==false)
                     break;
                 try {
-                    sleep(18);
+                    sleep(18);                  // It was supposed to be 20 but it was slow
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GanttChart.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -120,10 +108,9 @@ public class GanttChart extends Thread
         }
     }
     public synchronized void resumeDrawing(){
-        state = 1;
-        interrupter.setVisible(false);
-        interrupter = null;
-        notify();
+        state = 1;                      // state is 1 indicates that thread is running
+        interrupter.setVisible(false);  // removing the interrupt label when resuming execution
+        notify();                       // notify to awake the thread again after the wait
     }
     public synchronized void setState(int s){
         state = s;
@@ -135,14 +122,10 @@ public class GanttChart extends Thread
         panel = p;
     }
     public synchronized void clearPanel(){
-
-        panel.removeAll();
-        state = 2;
-        if (!process.isEmpty())
-            process.removeFirst();
-//        location = 25;
-//        size = 0;
-//        time = 0;
+        panel.removeAll();              // Clear the gantt chart
+        state = 2;                      // state 2 is for interrupting the run function if it was running
+        if (!process.isEmpty())         
+            process.clear();            // clear the list of processes
     }
     public synchronized int getStatus(){
         return state;
