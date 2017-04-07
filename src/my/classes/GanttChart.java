@@ -109,7 +109,8 @@ public class GanttChart extends Thread
     }
     public synchronized void resumeDrawing(){
         state = 1;                      // state is 1 indicates that thread is running
-        interrupter.setVisible(false);  // removing the interrupt label when resuming execution
+        if (interrupter != null)
+            interrupter.setVisible(false);  // removing the interrupt label when resuming execution
         notify();                       // notify to awake the thread again after the wait
     }
     public synchronized void setState(int s){
