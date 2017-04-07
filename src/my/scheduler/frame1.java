@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.UIManager;
 import my.classes.FCFS;
+import my.classes.Scheduler;
+import static my.classes.Scheduler.extraProcessList;
 import static my.classes.Scheduler.processList;
 
 /**
@@ -26,6 +28,9 @@ import static my.classes.Scheduler.processList;
 public class frame1 extends javax.swing.JFrame {
 
     GanttChart g;
+    Scheduler scheduler;
+    boolean isListChanged = false;
+    boolean isPaused = false;
     public frame1() {
         try { 
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel"); 
@@ -346,19 +351,39 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        FCFS x = new FCFS();
-        x.schedule();
+        String choice = jComboBox1.getSelectedItem().toString();
+        if (choice.equals("Priority")){
+            // Case of  priority scheduling
+            scheduler = new FCFS();
+        }
+        else if (choice.equals("First Come First Served")){
+            // Case of FCFS scheduling
+            scheduler = new FCFS();
+        }
+        else if (choice.equals("Shortest Job First")){
+            // Case of 
+            scheduler = new FCFS();
+
+        }
+        else if (choice.equals("Round Robin")){
+            // Case of RR
+            scheduler = new FCFS();
+        }
+        else{
+            scheduler = new FCFS();
+        }
+        scheduler.schedule(0.0);
         g.setProcess(processList);
         g.setPanel(jPanel3);
         g.start();
         jButton3.setEnabled(false);
         jButton2.setEnabled(false);
         jComboBox1.setEnabled(false);
-
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        isListChanged = true;
         jLabel5.setText("");
         String name,arrival,burst,priority;
         name = jTextField1.getText();
@@ -376,7 +401,10 @@ public class frame1 extends javax.swing.JFrame {
             if (choice.equals("Priority")){
                 p.setPriority(Integer.parseInt(priority));
             }
-            processList.add(p);
+            if (!isPaused)
+                processList.add(p);
+            else
+                extraProcessList.add(p);
             model.addElement(name);
             jList1.setModel(model);
         }
@@ -389,6 +417,9 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         jButton3.setEnabled(true);
         jButton5.setEnabled(true);
+        isListChanged = false;
+        isPaused = true;
+        g.setIsNewProcess(true);
         g.setState(0);
                    
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -396,6 +427,10 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         jButton3.setEnabled(false);
         jButton5.setEnabled(false);
+        isPaused = false;
+        isListChanged = false;
+        scheduler.scheduleWithInterrupt(g.getProcesses(),g.getTime());
+        g.setProcess(processList);
         g.resumeDrawing();
     }//GEN-LAST:event_jButton5ActionPerformed
 

@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package my.classes;
 import java.awt.Font;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.JLabel;
 import javax.swing.JPanel; 
 
-public class GanttChart extends Thread
+public class GanttChart extends Thread  // inheriting thread library
 {
     LinkedList<Process> process;
     private Thread t;
@@ -26,6 +24,8 @@ public class GanttChart extends Thread
     JButton b;
     JLabel interrupter;
     int state = 1;                      // 0 for waiting , 1 for running , 2 for interruption
+    boolean isDrawn = false;
+    boolean isNewProcess = false;
     
     public GanttChart(JPanel p){
         panel = p;    
@@ -75,13 +75,26 @@ public class GanttChart extends Thread
             sizeOfPeriod = p.getBurst()*50;
             while (true)
             {
-                if (state == 0)
+                if (state == 0){
+                    p.setIsFinished(false);
+                    double remTime = p.getBurst() - (time/1000.0 - p.getArrival()) ;
+                    p.setRemainingTime(remTime);
                     pause();
+                    if (isNewProcess){
+                        it = process.iterator();
+                        isNewProcess = false;
+                        break;
+                    }
+                }
                 else if (state == 2)
                     return ;
                 boolean x = draw(sizeOfPeriod);
-                if ( x==false)
+                if ( x==false){
+                    p.setRemainingTime(0.0);
+                    p.setIsFinished(true);
+//                    process.remove(p);
                     break;
+                }
                 try {
                     sleep(18);                  // It was supposed to be 20 but it was slow
                 } catch (InterruptedException ex) {
@@ -94,7 +107,7 @@ public class GanttChart extends Thread
     }
     public synchronized void pause(){
         String ti = "Interrupted at : ";
-        ti += String.format( "%.2f", time/60.0 );
+        ti += String.format( "%.2f", time/1000.0 );
         interrupter = new JLabel(ti);
         panel.add(interrupter);
         interrupter.setLocation(25,200);
@@ -131,5 +144,22 @@ public class GanttChart extends Thread
     public synchronized int getStatus(){
         return state;
     }
-    
+    public synchronized LinkedList getProcesses(){
+        return process;
+    }
+    public synchronized void setIsDrawn(boolean d){
+        isDrawn = d;
+    }
+    public synchronized boolean isDrawn(){
+        return isDrawn;
+    }
+    public synchronized boolean isNewProcess(){
+        return isNewProcess;
+    }
+    public synchronized void setIsNewProcess(boolean s){
+        isNewProcess = s;
+    }
+    public synchronized double getTime(){
+        return time;
+    }
 }
