@@ -6,27 +6,18 @@
 
 package my.classes;
 import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.TimerTask;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Timer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-//import javafx.beans.value.ChangeListener;
-//import javafx.beans.value.ObservableValue;
 import javax.swing.JButton; 
 import javax.swing.JLabel;
 import javax.swing.JPanel; 
-import javax.swing.SpringLayout;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-/**
- *
- * @author amr
- */
+
 public class GanttChart extends Thread
 {
+    LinkedList<Process> process;
     private Thread t;
     private JPanel panel;
     double time =0;
@@ -38,11 +29,11 @@ public class GanttChart extends Thread
     int state = 1;
     // state is 0 if thread is  not running 
     // state is 1 if thread is running
+    // state is 2 to indicate deletion of all processes
+    
     public GanttChart(JPanel p){
         panel = p;    
-//        b.setLocation(50,100);
     }
-    // duration is in seconds
     public void initializeTimeLine(){
         double t = 0;
         String s = Double.toString(t);
@@ -51,13 +42,14 @@ public class GanttChart extends Thread
         initialPlace.setLocation(location,125);
         initialPlace.setSize(50,50);
         initialPlace.setFont(new Font("Tahoma", Font.PLAIN, 10));
-        time+= 60.0/50.0;
+//        time+= 20;
     }
-    public boolean draw(int duration , String name,double sizeOfPeriod){
+    public boolean draw(double sizeOfPeriod){
   
         if (size > sizeOfPeriod){
-            
-            String ti = String.format( "%.2f", time/60.0 );
+            System.out.println("finish");
+            String ti = String.format( "%.2f", (time-20)/1000.0 );
+            time -= 20.0;
             JLabel l = new JLabel(ti);
             panel.add(l);
             l.setLocation(location,125);
@@ -65,40 +57,41 @@ public class GanttChart extends Thread
             l.setFont(new Font("Tahoma", Font.PLAIN, 10));
             return false;
         }
-        if (size %25 ==0 && size>0){
-//            String ti = Double.toString(time);
-//            JLabel l = new JLabel(ti);
-//            panel.add(l);
-//            l.setLocation(location,150);
-//            l.setSize(50,50);
-//            l.setFont(new Font("Tahoma", Font.PLAIN, 10));
-//
-//            time += 0.5;
-        }
+        System.out.print(time);
+        System.out.print("     ");
+        System.out.print(sizeOfPeriod);
+        System.out.print("     ");
+        System.out.println(size);
+
         b.setSize(size,50);
         size+=1;
-        time += 60/50;
+        time += 20;
         location = location +1;
         panel.setSize( location+300,180 );
         panel.setPreferredSize(panel.getSize());
         return true;
     }
-
     public void run(){
+        state = 1;
+        Iterator it = process.iterator();
+        panel.setVisible(true);
         initializeTimeLine();
-        for (int i=0 ;i <10; i++){
-            b = new JButton("p1");
+        while(it.hasNext()){
+            Process p =  (Process) it.next() ;
+            b = new JButton(p.getName());
             b.setSize(0,50);
             b.setLocation(location,75);
             panel.add(b);
             size = 0;
             double sizeOfPeriod ;
-            sizeOfPeriod = 0.65*50;
+            sizeOfPeriod = p.getBurst()*50;
             while (true)
             {
                 if (state == 0)
                     pause();
-                boolean x = draw(10,"p",sizeOfPeriod);
+                else if (state == 2)
+                    return ;
+                boolean x = draw(sizeOfPeriod);
                 if ( x==false)
                     break;
                 try {
@@ -112,7 +105,6 @@ public class GanttChart extends Thread
         }
     }
     public synchronized void pause(){
-        System.out.println("1");
         String ti = "Interrupted at : ";
         ti += String.format( "%.2f", time/60.0 );
         interrupter = new JLabel(ti);
@@ -136,10 +128,24 @@ public class GanttChart extends Thread
     public synchronized void setState(int s){
         state = s;
     }
+    public synchronized void setProcess(LinkedList p){
+        process = p;
+    }
+    public synchronized void setPanel(JPanel p){
+        panel = p;
+    }
     public synchronized void clearPanel(){
+
         panel.removeAll();
-        panel.setVisible(false);
-        panel = null;
+        state = 2;
+        if (!process.isEmpty())
+            process.removeFirst();
+//        location = 25;
+//        size = 0;
+//        time = 0;
+    }
+    public synchronized int getStatus(){
+        return state;
     }
     
 }

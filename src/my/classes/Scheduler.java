@@ -4,12 +4,13 @@
  * and open the template in the editor.
  */
 package my.classes;
-import java.util.*;
-import javax.swing.DefaultListModel;
+
+import java.util.LinkedList;
+
 /**
  *
  * @author amr
  */
-public class List {
-    public static DefaultListModel model = new DefaultListModel();
+public interface Scheduler {
+    public static LinkedList<Process> processList = new LinkedList<Process>();
 }

@@ -11,12 +11,12 @@ import my.classes.List;
 import my.classes.GanttChart;
 import java.util.*;
 import static my.classes.List.model;
-import static my.classes.List.processList;
 import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.UIManager;
+import static my.classes.Scheduler.processList;
 
 /**
  *
@@ -111,6 +111,12 @@ public class frame1 extends javax.swing.JFrame {
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
+            }
+        });
+
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField3ActionPerformed(evt);
             }
         });
 
@@ -338,6 +344,8 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        g.setProcess(processList);
+        g.setPanel(jPanel3);
         g.start();
         jButton3.setEnabled(false);
         jButton2.setEnabled(false);
@@ -350,14 +358,16 @@ public class frame1 extends javax.swing.JFrame {
         jLabel5.setText("");
         String name,arrival,burst,priority;
         name = jTextField1.getText();
-        arrival = jTextField2.getText();
-        burst = jTextField3.getText();
+        arrival = jTextField3.getText();
+        burst = jTextField2.getText();
         priority = jTextField4.getText();
         Process p = new Process();
         try{
             p.setName(name);
             p.setArrival(Double.parseDouble(arrival));
             p.setBurst(Double.parseDouble(burst));
+            System.out.print("burst is ");
+            System.out.println(burst);
             String choice = jComboBox1.getSelectedItem().toString();
             if (choice.equals("Priority")){
                 p.setPriority(Integer.parseInt(priority));
@@ -395,8 +405,21 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jButton2.setEnabled(true);
         jComboBox1.setEnabled(true);
+        if (!processList.isEmpty())
+            processList.removeFirst();
+        if (!model.isEmpty())
+            model.removeAllElements();
         g.clearPanel();
+        jButton3.setEnabled(true);
+        g = null;
+        g = new GanttChart(jPanel3);
+        
+
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     /**
      * @param args the command line arguments
