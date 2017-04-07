@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.UIManager;
+import my.classes.FCFS;
 import static my.classes.Scheduler.processList;
 
 /**
@@ -344,6 +345,9 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        FCFS x = new FCFS();
+        x.schedule();
+        
         g.setProcess(processList);
         g.setPanel(jPanel3);
         g.start();

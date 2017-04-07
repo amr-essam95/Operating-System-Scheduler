@@ -11,6 +11,10 @@ import java.util.LinkedList;
  *
  * @author amr
  */
-public interface Scheduler {
+abstract public class Scheduler {
     public static LinkedList<Process> processList = new LinkedList<Process>();
+    
+   abstract public void schedule();
+    
+    
 }

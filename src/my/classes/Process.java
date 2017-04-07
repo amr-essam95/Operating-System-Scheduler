@@ -20,10 +20,10 @@ public class Process {
     public double getBurst(){
         return burst;
     }
-    public double arrival(){
+    public double getArrival(){
         return arrival;
     }
-    public int getpriority(){
+    public int getPriority(){
         return priority;
     }
     public void setName(String s){
@@ -38,6 +38,7 @@ public class Process {
     public void setPriority(int p){
         priority = p;
     }
+  
 
     static class java {
 
