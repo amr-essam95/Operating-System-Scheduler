@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.TimerTask;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 //import javafx.beans.value.ChangeListener;
 //import javafx.beans.value.ObservableValue;
 import javax.swing.JButton; 
@@ -27,9 +29,14 @@ public class GanttChart extends Thread
 {
     private Thread t;
     private JPanel panel;
-    float time =0;
+    double time =0;
     int size=0;
     int location = 50;
+    Timer timer;
+    JButton b;
+    int state = 1;
+    // state is 0 if thread is  not running 
+    // state is 1 if thread is running
     public GanttChart(JPanel p){
 
         panel = p;
@@ -41,13 +48,13 @@ public class GanttChart extends Thread
         panel.add(label);
     }
     // duration is in seconds
-    public void drawPeriod(int duration , String name){
+    public synchronized void drawPeriod(int duration , String name){
         JButton b = new JButton(name);
         b.setSize(0,50);
         b.setLocation(location,100);
         panel.add(b);
         size = 0;
-        Timer timer = new Timer();
+        timer = new Timer();
         int sizeOfPeriod ;
         sizeOfPeriod = duration*50;
         TimerTask myTask = new TimerTask() {
@@ -55,32 +62,118 @@ public class GanttChart extends Thread
             public void run() {
                 if (size > sizeOfPeriod)
                     timer.cancel();
+
+
                 if (size %25 ==0){
-//                    System.out.println(location);
-                    String ti = Float.toString(time);
+                    System.out.println(location);
+                    double temp = time / 60;
+                    String ti = Double.toString(temp);
                     JLabel l = new JLabel(ti);
                     panel.add(l);
                     l.setLocation(location,150);
                     l.setSize(50,50);
                     l.setFont(new Font("Tahoma", Font.PLAIN, 10));
-                    
+
                     time += 0.5;
                 }
                 b.setSize(size,50);
                 size+=1;
                 location = location +1;
-                panel.setSize( location+300,300 );
+                panel.setSize( location+300,180 );
                 panel.setPreferredSize(panel.getSize());
             }
-};
-    timer.schedule(myTask, 10, 10);
+            };
+         timer.schedule(myTask, 10, 10);
+        }
+    public void initializeTimeLine(){
+        double t = 0;
+        String s = Double.toString(t);
+        JLabel initialPlace = new JLabel(s);
+        panel.add(initialPlace);
+        initialPlace.setLocation(location,150);
+        initialPlace.setSize(50,50);
+        initialPlace.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        time+= 60.0/50.0;
+    }
+    public boolean draw(int duration , String name,double sizeOfPeriod){
+  
+        if (size > sizeOfPeriod){
+            
+            String ti = String.format( "%.2f", time/60.0 );
+            JLabel l = new JLabel(ti);
+            panel.add(l);
+            l.setLocation(location,150);
+            l.setSize(50,50);
+            l.setFont(new Font("Tahoma", Font.PLAIN, 10));
+            return false;
+        }
+        if (size %25 ==0 && size>0){
+//            String ti = Double.toString(time);
+//            JLabel l = new JLabel(ti);
+//            panel.add(l);
+//            l.setLocation(location,150);
+//            l.setSize(50,50);
+//            l.setFont(new Font("Tahoma", Font.PLAIN, 10));
+//
+//            time += 0.5;
+        }
+        b.setSize(size,50);
+        size+=1;
+        time += 60/50;
+        location = location +1;
+        panel.setSize( location+300,180 );
+        panel.setPreferredSize(panel.getSize());
+        return true;
     }
     // This function takes a vector containing name of the process and the duration
 //    LinkedList p,float totalDuration
     public void run(){
-//        panel.setLayout(new SpringLayout());
-        drawPeriod(30,"P1");
-
-
+        initializeTimeLine();
+        for (int i=0 ;i <10; i++){
+            b = new JButton("p1");
+            b.setSize(0,50);
+            b.setLocation(location,100);
+            panel.add(b);
+            size = 0;
+            double sizeOfPeriod ;
+            sizeOfPeriod = 0.65*50;
+            while (true)
+            {
+                if (state == 0)
+                    pause();
+                boolean x = draw(10,"p",sizeOfPeriod);
+                if ( x==false)
+                    break;
+                try {
+                    sleep(18);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(GanttChart.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+                
+        }
     }
+    public synchronized void pause(){
+        String ti = String.format( "%.2f", time/60.0 );
+        JLabel l = new JLabel(ti);
+        panel.add(l);
+        l.setLocation(50,160);
+        l.setSize(50,50);
+        l.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        try {
+            wait();
+            System.out.println("helloooooooo");
+        } catch (InterruptedException ex) {
+            Logger.getLogger(GanttChart.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public synchronized void resumeDrawing(){
+        state = 1;
+        notify();
+    }
+    public synchronized void setState(int s){
+        state = s;
+    }
+    
 }
