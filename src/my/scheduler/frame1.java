@@ -37,7 +37,7 @@ public class frame1 extends javax.swing.JFrame {
         jLabel4.setVisible(false);
         jTextField4.setVisible(false);
         model.addElement("Name");
-        g.start();
+        
     }
 
 /**
@@ -305,7 +305,10 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        g.start();
+        jButton3.setEnabled(false);
+        jButton2.setEnabled(false);
+        jComboBox1.setEnabled(false);
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -346,11 +349,13 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        jButton3.setEnabled(true);
         g.setState(0);
                    
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        jButton3.setEnabled(false);
         g.resumeDrawing();
     }//GEN-LAST:event_jButton5ActionPerformed
 

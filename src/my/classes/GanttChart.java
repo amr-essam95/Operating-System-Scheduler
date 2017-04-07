@@ -34,6 +34,7 @@ public class GanttChart extends Thread
     int location = 50;
     Timer timer;
     JButton b;
+    JLabel interrupter;
     int state = 1;
     // state is 0 if thread is  not running 
     // state is 1 if thread is running
@@ -125,8 +126,7 @@ public class GanttChart extends Thread
         panel.setPreferredSize(panel.getSize());
         return true;
     }
-    // This function takes a vector containing name of the process and the duration
-//    LinkedList p,float totalDuration
+
     public void run(){
         initializeTimeLine();
         for (int i=0 ;i <10; i++){
@@ -155,12 +155,14 @@ public class GanttChart extends Thread
         }
     }
     public synchronized void pause(){
-        String ti = String.format( "%.2f", time/60.0 );
-        JLabel l = new JLabel(ti);
-        panel.add(l);
-        l.setLocation(50,160);
-        l.setSize(50,50);
-        l.setFont(new Font("Tahoma", Font.PLAIN, 10));
+        System.out.println("1");
+        String ti = "Interrupted at : ";
+        ti += String.format( "%.2f", time/60.0 );
+        interrupter = new JLabel(ti);
+        panel.add(interrupter);
+        interrupter.setLocation(50,200);
+        interrupter.setSize(300,50);
+        interrupter.setFont(new Font("Tahoma", Font.PLAIN, 10));
         try {
             wait();
             System.out.println("helloooooooo");
@@ -170,6 +172,8 @@ public class GanttChart extends Thread
     }
     public synchronized void resumeDrawing(){
         state = 1;
+        interrupter.setVisible(false);
+        interrupter = null;
         notify();
     }
     public synchronized void setState(int s){
