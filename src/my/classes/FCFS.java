@@ -30,35 +30,61 @@ public class FCFS extends Scheduler{
     LinkedList temp = new LinkedList();
     while (it.hasNext()){
         Process p = (Process) it.next();
+        System.out.print("decision is here");
+        System.out.print(p.getArrival());
+        System.out.print("    ");
+        System.out.print(timer);
+        System.out.println("    ");
         if (p.getArrival() <= timer){                                   // Case if there is available process to schedule                     
             temp.add(p);
-            p.setArrival(timer);
+//            p.setArrival(timer);
             timer += p.getBurst();
             System.out.println("ok");
         }
         else {                                                          // Case if no avaialable processes yet
             Process idle = new Process();
-            idle.setArrival(timer);
+//            idle.setArrival(timer);
+//            System.out.print("erro is here");
+//            System.out.print(p.getArrival());
+//            System.out.print("    ");
+//            System.out.print(timer);
+//            System.out.print("    ");
             double idleTime = p.getArrival()-timer;
+//            System.out.println(idleTime);
             idle.setBurst(idleTime);
             idle.setName("Idle");
+            idle.setRemainingTime(idleTime);
             temp.add(idle);                                             // Add idle state 
-            p.setArrival(timer+idleTime);
+//            p.setArrival(timer+idleTime);
             temp.add(p);
             timer = timer + idleTime + p.getBurst();
         }
     }
     processList = temp;                                                 //Update process list with list after scheduling
+    it = processList.iterator();
+    while(it.hasNext()){
+        Process p = (Process)it.next();
+        System.out.print(p.getBurst());
+        System.out.print("    ");
+        System.out.print(p.getName());
+        System.out.print("    ");
+        System.out.println(p.getRemainingTime());
+
+        
+    }
     }
     
     public void scheduleWithInterrupt(LinkedList<Process> l,double time){
+        if (l==null||!l.isEmpty())
+            return ;
         Iterator it = l.iterator();
         while (it.hasNext()){
             Process p = (Process) it.next();
             if (p.getName().equals("Idle")){
-                processList.remove(p);
                 p.setRemainingTime(p.getBurst());
                 p.setIsFinished(false);
+                processList.remove(p);
+
             }
             else if ( p.isFinished()){
                 p.setRemainingTime(p.getBurst());
@@ -74,6 +100,6 @@ public class FCFS extends Scheduler{
             Process p = (Process) it.next();
             processList.add(p);
         }
-        schedule(0);
+        schedule(time/1000.0);
     }
 }

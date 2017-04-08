@@ -26,9 +26,10 @@ public class GanttChart extends Thread  // inheriting thread library
     int state = 1;                      // 0 for waiting , 1 for running , 2 for interruption
     boolean isDrawn = false;
     boolean isNewProcess = false;
+    Process lastProcess;
     
     public GanttChart(JPanel p){
-        panel = p;    
+        panel = p;   
     }
     public void initializeTimeLine(){
         double t = 0;
@@ -68,8 +69,10 @@ public class GanttChart extends Thread  // inheriting thread library
             Process p =  (Process) it.next() ;
             b = new JButton(p.getName());
             b.setSize(0,50);
+            b.setFont(new Font("Tahoma", Font.PLAIN, 12));
             b.setLocation(location,75);
             panel.add(b);
+
             size = 0;
             double sizeOfPeriod ;
             sizeOfPeriod = p.getBurst()*50;
@@ -80,18 +83,22 @@ public class GanttChart extends Thread  // inheriting thread library
                     double remTime = p.getBurst() - (time/1000.0 - p.getArrival()) ;
                     p.setRemainingTime(remTime);
                     pause();
+                    lastProcess = p;
                     if (isNewProcess){
                         it = process.iterator();
                         isNewProcess = false;
                         break;
                     }
                 }
-                else if (state == 2)
+                else if (state == 2){
+                    lastProcess = p;
                     return ;
+                }
                 boolean x = draw(sizeOfPeriod);
                 if ( x==false){
                     p.setRemainingTime(0.0);
                     p.setIsFinished(true);
+                    lastProcess = p;
 //                    process.remove(p);
                     break;
                 }
