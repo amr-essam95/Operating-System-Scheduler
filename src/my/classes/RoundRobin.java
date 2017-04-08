@@ -18,6 +18,7 @@ import java.util.Queue;
 public class RoundRobin extends Scheduler {
     public void schedule(double time){
         double timer = time;
+        boolean enter = false;
         Collections.sort(processList, new Comparator <Process>() {      // Sort according to arrival time
             public int compare(Process p1, Process p2) {
                 return Double.compare(p1.getArrival(),p2.getArrival());
@@ -26,9 +27,14 @@ public class RoundRobin extends Scheduler {
         Iterator it = processList.iterator();
         Queue<Process> q = new LinkedList<Process>();
         LinkedList temp = new LinkedList();
-        while (it.hasNext()){
-            Process p = (Process)it.next();
+        Process p =null;
+        while (enter||it.hasNext()){
+            if (!enter)
+                p = (Process)it.next();
+            enter = false;
+            System.out.println(p.getName());
             if(( p.getArrival() > timer )&&(q.isEmpty())){
+                System.out.println("ok");
                 Process idle = new Process();
                 idle.setName("Idle");
                 double idleTime = p.getArrival() - timer ;
@@ -71,6 +77,18 @@ public class RoundRobin extends Scheduler {
                 }
             }
             else if (p.getArrival()<= timer && !q.isEmpty()){
+                System.out.println("inin");
+                while(it.hasNext()){
+                    Process tempP = (Process)it.next();
+                    if (tempP.getArrival() <= timer){
+                        q.add(tempP);
+                    }
+                    else{
+                        enter = true;
+                        p = tempP;
+                        break;
+                    }
+                }
                 Process dequeued = q.poll();
                 p.setRemainingTime(p.getBurst());
                 q.add(p);
@@ -91,6 +109,18 @@ public class RoundRobin extends Scheduler {
                 }    
             }
             else if(p.getArrival()<=timer){
+                while(it.hasNext()){
+                    Process tempP = (Process)it.next();
+                    if (tempP.getArrival() <= timer){
+                        System.out.println("inin");
+                        q.add(tempP);
+                    }
+                    else{
+                        enter = true;
+                        p = tempP;
+                        break;
+                    }
+                }               
                 if (p.getBurst()<= quantum){
                     p.setRemainingTime(p.getBurst());
                     temp.add(p);
@@ -129,6 +159,7 @@ public class RoundRobin extends Scheduler {
             }
                 
         }
+        processList = temp;
     }
     public void scheduleWithInterrupt(LinkedList<Process> l,double time){
         
