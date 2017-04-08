@@ -419,8 +419,10 @@ public class frame1 extends javax.swing.JFrame {
             p.setName(name);
             p.setArrival(Double.parseDouble(arrival));
             p.setBurst(Double.parseDouble(burst));
-            quantum = Integer.parseInt(jTextField5.getText());
             String choice = jComboBox1.getSelectedItem().toString();
+            if (choice.equals("Round Robin")){
+                quantum = Integer.parseInt(jTextField5.getText());
+            }
             if (choice.equals("Priority")){
                 p.setPriority(Integer.parseInt(priority));
             }
