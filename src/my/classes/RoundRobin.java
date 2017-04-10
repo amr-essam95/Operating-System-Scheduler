@@ -29,12 +29,11 @@ public class RoundRobin extends Scheduler {
         LinkedList temp = new LinkedList();
         Process p =null;
         while (enter||it.hasNext()){
-            if (!enter)
+            if (!enter){
                 p = (Process)it.next();
+            }
             enter = false;
-            System.out.println(p.getName());
             if(( p.getArrival() > timer )&&(q.isEmpty())){
-                System.out.println("ok");
                 Process idle = new Process();
                 idle.setName("Idle");
                 double idleTime = p.getArrival() - timer ;
@@ -58,26 +57,46 @@ public class RoundRobin extends Scheduler {
                     timer = timer + idleTime + quantum;
                 }
             }
-            else if (p.getArrival() > timer){
-                Process dequeued = q.poll();
-                if (dequeued.getBurst() <= quantum){
-                    dequeued.setRemainingTime(dequeued.getBurst());
-                    temp.add(dequeued);
-                    timer += dequeued.getBurst();
+            else if ( p.getArrival() > timer ){
+                // In this case you have processes in the queue and have a new process
+                // so run the first one in the queue and add the new process to the queue
+                boolean finished = false;
+                while ( p.getArrival() > timer && !finished){
+                    Process dequeued = q.poll();
+                    if (dequeued.getBurst() <= quantum){
+                        dequeued.setRemainingTime(dequeued.getBurst());
+                        temp.add(dequeued);
+                        timer += dequeued.getBurst();
+                    }
+                    else{
+                        double burst = dequeued.getBurst();
+                        dequeued.setBurst(quantum);
+                        dequeued.setRemainingTime(quantum);
+                        temp.add(dequeued);
+                        dequeued.setBurst(burst-quantum);
+                        dequeued.setRemainingTime(burst-quantum);
+                        q.add(dequeued);
+                        timer += quantum;
+                    }
+                    if (q.isEmpty()){
+                        finished = true;
+                    }
                 }
-                else{
-                    double burst = dequeued.getBurst();
-                    dequeued.setBurst(quantum);
-                    dequeued.setRemainingTime(quantum);
-                    temp.add(dequeued);
-                    dequeued.setBurst(burst-quantum);
-                    dequeued.setRemainingTime(burst-quantum);
-                    q.add(dequeued);
-                    timer += quantum;
+                if (finished){
+                    Process idle = new Process();
+                    idle.setName("Idle");
+                    double idleTime = p.getArrival() - timer ;
+                    idle.setBurst(idleTime);
+                    idle.setRemainingTime(idleTime);
+                    temp.add(idle);
+                    timer += idleTime;
                 }
+                p.setRemainingTime(p.getBurst());
+                q.add (p);
             }
             else if (p.getArrival()<= timer && !q.isEmpty()){
-                System.out.println("inin");
+                p.setRemainingTime(p.getBurst());
+                q.add(p);
                 while(it.hasNext()){
                     Process tempP = (Process)it.next();
                     if (tempP.getArrival() <= timer){
@@ -90,8 +109,6 @@ public class RoundRobin extends Scheduler {
                     }
                 }
                 Process dequeued = q.poll();
-                p.setRemainingTime(p.getBurst());
-                q.add(p);
                 if (dequeued.getBurst() <= quantum){
                     dequeued.setRemainingTime(dequeued.getBurst());
                     temp.add(dequeued);
@@ -109,10 +126,13 @@ public class RoundRobin extends Scheduler {
                 }    
             }
             else if(p.getArrival()<=timer){
+                // Case if no processes in the queue and one or more processes come at that arrival time
+                // put all of them in the queue and take the first one
+                p.setRemainingTime(p.getBurst());
+                q.add(p);
                 while(it.hasNext()){
                     Process tempP = (Process)it.next();
                     if (tempP.getArrival() <= timer){
-                        System.out.println("inin");
                         q.add(tempP);
                     }
                     else{
@@ -120,21 +140,21 @@ public class RoundRobin extends Scheduler {
                         p = tempP;
                         break;
                     }
-                }               
-                if (p.getBurst()<= quantum){
-                    p.setRemainingTime(p.getBurst());
-                    temp.add(p);
-                    timer += p.getBurst();
+                } 
+                Process dequeued = q.poll();
+                if (dequeued.getBurst()<= quantum){
+                    dequeued.setRemainingTime(dequeued.getBurst());
+                    temp.add(dequeued);
+                    timer += dequeued.getBurst();
                 }
                 else{
-                    Process ptemp = p;
-                    double burst = p.getBurst();
-                    ptemp.setRemainingTime(quantum);
-                    ptemp.setBurst(quantum);
-                    temp.add(p);
-                    ptemp.setBurst(burst - quantum);
-                    ptemp.setRemainingTime(burst - quantum);
-                    q.add(ptemp);
+                    double burst = dequeued.getBurst();
+                    dequeued.setRemainingTime(quantum);
+                    dequeued.setBurst(quantum);
+                    temp.add(dequeued);
+                    dequeued.setBurst(burst - quantum);
+                    dequeued.setRemainingTime(burst - quantum);
+                    q.add(dequeued);
                     timer += quantum;
                 }
             }
@@ -143,10 +163,10 @@ public class RoundRobin extends Scheduler {
         while(!q.isEmpty()){
             Process dequeued = q.poll();
             double burst = dequeued.getBurst();
-            if(dequeued.getBurst() <= quantum){
-                dequeued.setRemainingTime(dequeued.getBurst());
+            if(burst <= quantum){
+                dequeued.setRemainingTime(burst);
                 temp.add(dequeued);
-                timer += dequeued.getBurst();
+                timer += burst;
             }
             else{
                 dequeued.setBurst(quantum);
