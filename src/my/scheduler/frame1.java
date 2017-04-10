@@ -407,7 +407,6 @@ public class frame1 extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        isListChanged = true;
         jLabel5.setText("");
         String name,arrival,burst,priority;
         name = jTextField1.getText();
@@ -426,10 +425,14 @@ public class frame1 extends javax.swing.JFrame {
             if (choice.equals("Priority")){
                 p.setPriority(Integer.parseInt(priority));
             }
-            if (!isPaused)
+            if (!isPaused){
                 processList.add(p);
-            else
+            }
+            else{
                 extraProcessList.add(p);
+                isListChanged = true;
+                System.out.println("list is changed");
+            }
             model.addElement(name);
             jList1.setModel(model);
         }
@@ -446,7 +449,7 @@ public class frame1 extends javax.swing.JFrame {
         jButton6.setEnabled(false);
         isListChanged = false;
         isPaused = true;
-        g.setIsNewProcess(true);
+        //g.setIsNewProcess(true);
         g.setState(0);
                    
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -456,10 +459,13 @@ public class frame1 extends javax.swing.JFrame {
         jButton5.setEnabled(false);
         jButton4.setEnabled(true);
         jButton6.setEnabled(true);
+        if ( isListChanged ){
+            scheduler.scheduleWithInterrupt(g.getProcesses(),g.getTime());
+            g.setProcess(processList);
+            isListChanged = false;
+        }
         isPaused = false;
-        isListChanged = false;
-        scheduler.scheduleWithInterrupt(g.getProcesses(),g.getTime());
-        g.setProcess(processList);
+
         g.resumeDrawing();
     }//GEN-LAST:event_jButton5ActionPerformed
 
