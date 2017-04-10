@@ -13,7 +13,15 @@ public class Process {
     private double burst;   // burst time for the process
     private double arrival; // arrival time of the process
     private int priority;   // priority of the process in case of priority scheduling
+    private double remainingTime = burst;
+    private boolean isFinished = false;
     
+    public double getRemainingTime(){
+        return remainingTime;
+    }
+    public boolean isFinished(){
+        return isFinished;
+    }
     public String getName(){
         return name;
     }
@@ -37,6 +45,12 @@ public class Process {
     }
     public void setPriority(int p){
         priority = p;
+    }
+    public void setRemainingTime(double r){
+        remainingTime = r;
+    }
+    public void setIsFinished(boolean f){
+        isFinished = f;
     }
   
 

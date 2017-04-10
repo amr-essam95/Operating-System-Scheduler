@@ -13,8 +13,13 @@ import java.util.LinkedList;
  */
 abstract public class Scheduler {
     public static LinkedList<Process> processList = new LinkedList<Process>();
+    public static LinkedList<Process> extraProcessList = new LinkedList<Process>();
+    protected static int quantum;
     
-   abstract public void schedule();
-    
+   abstract public void schedule(double time);
+   abstract public void scheduleWithInterrupt(LinkedList<Process> l,double time);
+   public void setQuantum(int q){
+       quantum = q;
+   }
     
 }
