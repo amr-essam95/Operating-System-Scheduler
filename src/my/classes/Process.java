@@ -15,7 +15,11 @@ public class Process {
     private int priority;   // priority of the process in case of priority scheduling
     private double remainingTime = burst;
     private boolean isFinished = false;
+    private double waitingTime = 0;     // holds the waiting time of each process 
     
+    public double getWaitingTime(){
+        return waitingTime;
+    }
     public double getRemainingTime(){
         return remainingTime;
     }
@@ -33,6 +37,9 @@ public class Process {
     }
     public int getPriority(){
         return priority;
+    }
+    public void setWaitingTime(double w){
+        waitingTime = w;
     }
     public void setName(String s){
         name = s;

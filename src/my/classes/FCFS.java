@@ -30,16 +30,16 @@ public class FCFS extends Scheduler{
     LinkedList temp = new LinkedList();
     while (it.hasNext()){
         Process p = (Process) it.next();
-        System.out.print("decision is here");
-        System.out.print(p.getArrival());
-        System.out.print("    ");
-        System.out.print(timer);
-        System.out.println("    ");
+//        System.out.print("decision is here");
+//        System.out.print(p.getArrival());
+//        System.out.print("    ");
+//        System.out.print(timer);
+//        System.out.println("    ");
         if (p.getArrival() <= timer){                                   // Case if there is available process to schedule                     
             temp.add(p);
-//            p.setArrival(timer);
+            p.setWaitingTime(timer - p.getArrival());
             timer += p.getBurst();
-            System.out.println("ok");
+//            System.out.println("ok");
         }
         else {                                                          // Case if no avaialable processes yet
             Process idle = new Process();
@@ -56,22 +56,30 @@ public class FCFS extends Scheduler{
             idle.setRemainingTime(idleTime);
             temp.add(idle);                                             // Add idle state 
 //            p.setArrival(timer+idleTime);
+            timer = timer + idleTime;
+            System.out.println(p.getArrival());
+            p.setWaitingTime(timer - p.getArrival());
+            System.out.println(p.getWaitingTime());
             temp.add(p);
-            timer = timer + idleTime + p.getBurst();
+            timer += p.getBurst();
         }
     }
     processList = temp;                                                 //Update process list with list after scheduling
     it = processList.iterator();
+    double waiting = 0;
+    int counter = 0;
     while(it.hasNext()){
         Process p = (Process)it.next();
-        System.out.print(p.getBurst());
-        System.out.print("    ");
-        System.out.print(p.getName());
-        System.out.print("    ");
-        System.out.println(p.getRemainingTime());
-
+//        System.out.print(p.getBurst());
+//        System.out.print("    ");
+//        System.out.print(p.getName());
+//        System.out.print("    ");
+//        System.out.println(p.getRemainingTime());
+        waiting += p.getWaitingTime();
+        counter ++;
         
     }
+    setAvgWaiting(waiting/counter);
     }
     
     public void scheduleWithInterrupt(LinkedList<Process> l,double time){

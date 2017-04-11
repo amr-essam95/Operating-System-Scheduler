@@ -117,7 +117,7 @@ public class GanttChart extends Thread  // inheriting thread library
         ti += String.format( "%.2f", time/1000.0 );
         interrupter = new JLabel(ti);
         panel.add(interrupter);
-        interrupter.setLocation(25,200);
+        interrupter.setLocation(25,165);
         interrupter.setSize(300,50);
         interrupter.setFont(new Font("Georgia", Font.BOLD, 15));
         try {

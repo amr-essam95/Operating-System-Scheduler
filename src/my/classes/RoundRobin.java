@@ -40,21 +40,24 @@ public class RoundRobin extends Scheduler {
                 idle.setBurst(idleTime);
                 idle.setRemainingTime(idleTime);
                 temp.add(idle);
+                timer = timer + idleTime;
                 if(p.getBurst()<= quantum){
                     p.setRemainingTime(p.getBurst());
+//                    p.setWaitingTime(timer - p.getArrival());
                     temp.add(p);
-                    timer = timer + idleTime + p.getBurst();
+                    timer += p.getBurst();
                 }
                 else{
                     double burst = p.getBurst();
                     Process ptemp = p;
                     ptemp.setBurst(quantum);
                     ptemp.setRemainingTime(quantum);
+//                    ptemp.setWaitingTime(timer - p.getArrival());
                     temp.add(ptemp);
                     ptemp.setBurst(burst - quantum);
                     ptemp.setRemainingTime(burst - quantum);
                     q.add(ptemp);
-                    timer = timer + idleTime + quantum;
+                    timer += quantum;
                 }
             }
             else if ( p.getArrival() > timer ){
