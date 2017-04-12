@@ -9,15 +9,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 import static my.classes.Scheduler.processList;
 
 /**
  *
  * @author amr
  */
-public class SJFNonPreemptive extends Scheduler {
-     public void schedule(double time){
+public class PriorityNonPreemptive extends Scheduler {
+    
+ public void schedule(double time){
         double timer = time ;
         Collections.sort(processList, new Comparator <Process>() {      // Sort according to arrival time
             public int compare(Process p1, Process p2) {
@@ -63,9 +63,9 @@ public class SJFNonPreemptive extends Scheduler {
             // sort by shortest and if 2 processes have same burst then check arrival time
             Collections.sort(arrived, new Comparator <Process>() {      
                 public int compare(Process p1, Process p2) {
-                    if (p1.getBurst() < p2.getBurst())
+                    if (p1.getPriority()< p2.getPriority())
                         return -1;
-                    else if (p1.getBurst() > p2.getBurst())
+                    else if (p1.getPriority() > p2.getPriority())
                         return 1;
                     else{
                         if (p1.getArrival() < p2.getArrival())
@@ -80,8 +80,10 @@ public class SJFNonPreemptive extends Scheduler {
             Iterator tempit = arrived.iterator();
             if (tempit.hasNext()){
                 Process dequeued = (Process)tempit.next();
-                System.out.println(p.getArrival());
+//                System.out.println(p.getArrival());
                 dequeued.setWaitingTime(timer - dequeued.getArrival());
+//                System.out.println(p)
+                System.out.println(timer-p.getArrival());
                 temp.add(dequeued);
                 timer += dequeued.getBurst();
                 arrived.removeFirst();
@@ -90,6 +92,7 @@ public class SJFNonPreemptive extends Scheduler {
         Iterator tempit = arrived.iterator();
         while(tempit.hasNext()){
             Process dequeued = (Process)tempit.next();
+            System.out.println(timer-dequeued.getArrival());
             dequeued.setWaitingTime(timer - dequeued.getArrival());
             temp.add(dequeued);
             timer += dequeued.getBurst();
@@ -109,5 +112,4 @@ public class SJFNonPreemptive extends Scheduler {
     public void scheduleWithInterrupt(LinkedList<Process> l,double time){
         
     }
-
 }

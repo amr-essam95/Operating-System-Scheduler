@@ -17,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.UIManager;
 import my.classes.FCFS;
+import my.classes.PriorityNonPreemptive;
+import my.classes.PriorityPreemptive;
 import my.classes.RoundRobin;
 import my.classes.SJFNonPreemptive;
 import my.classes.SJFPreemptive;
@@ -406,8 +408,11 @@ public class frame1 extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String choice = jComboBox1.getSelectedItem().toString();
         if (choice.equals("Priority")){
-            // Case of  priority scheduling
-            scheduler = new FCFS();
+            String pre = jComboBox2.getSelectedItem().toString();
+            if (pre.equals("Non Preemptive"))
+                scheduler = new PriorityNonPreemptive();
+            else if (pre.equals("Preemptive"))
+                scheduler = new PriorityPreemptive();
         }
         else if (choice.equals("First Come First Served")){
             // Case of FCFS scheduling
@@ -431,8 +436,8 @@ public class frame1 extends javax.swing.JFrame {
         }
         scheduler.schedule(0.0);
         double waiting = scheduler.getAvgWaiting();
-        String w = Double.toString(waiting);
-        String str = "The average waiting time is " + w + " seconds.";
+        String w = String.format( "%.3f", waiting );
+        String str = "The average waiting time is " + w + " time units.";
         jLabel7.setText(str);
         jLabel7.setVisible(true);
         g.setProcess(processList);
