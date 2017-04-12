@@ -17,7 +17,23 @@ public class Process {
     private boolean isFinished = false;
     private double waitingTime = 0;     // holds the waiting time of each process 
     private double finishedTime = 0;
+    private double originalBurst ;
     
+    public Process(){}
+    public Process (Process x){
+        name = x.name;
+        burst = x.burst;
+        arrival = x.arrival;
+        priority = x.priority;
+        remainingTime = x.remainingTime;
+        isFinished = x.isFinished;
+        waitingTime = x.waitingTime;
+        finishedTime = x.finishedTime;
+        originalBurst = x.originalBurst;
+    }
+    public double getOriginalBurst(){
+        return originalBurst;
+    }
     public double getFinishedTime(){
         return finishedTime;
     }
@@ -41,6 +57,9 @@ public class Process {
     }
     public int getPriority(){
         return priority;
+    }
+    public void setOriginalBurst(double o){
+        originalBurst = o;
     }
     public void setFinishedTime(double f){
         finishedTime = f;

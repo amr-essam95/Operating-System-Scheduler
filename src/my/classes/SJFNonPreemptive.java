@@ -60,6 +60,7 @@ public class SJFNonPreemptive extends Scheduler {
                     }
                 }
             }
+            // sort by shortest and if 2 processes have same burst then check arrival time
             Collections.sort(arrived, new Comparator <Process>() {      
                 public int compare(Process p1, Process p2) {
                     if (p1.getBurst() < p2.getBurst())
@@ -74,13 +75,12 @@ public class SJFNonPreemptive extends Scheduler {
                         else
                             return 0;
                     }
-//                    return Double.compare(p1.getBurst(),p2.getBurst());
                 }
             });
             Iterator tempit = arrived.iterator();
             if (tempit.hasNext()){
                 Process dequeued = (Process)tempit.next();
-//                System.out.println(dequeued.getBurst());
+                System.out.println(p.getArrival());
                 dequeued.setWaitingTime(timer - p.getArrival());
                 temp.add(dequeued);
                 timer += dequeued.getBurst();
