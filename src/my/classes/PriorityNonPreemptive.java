@@ -81,7 +81,8 @@ public class PriorityNonPreemptive extends Scheduler {
             if (tempit.hasNext()){
                 Process dequeued = (Process)tempit.next();
 //                System.out.println(p.getArrival());
-                dequeued.setWaitingTime(timer - p.getArrival());
+                dequeued.setWaitingTime(timer - dequeued.getArrival());
+//                System.out.println(p)
                 System.out.println(timer-p.getArrival());
                 temp.add(dequeued);
                 timer += dequeued.getBurst();
@@ -91,8 +92,8 @@ public class PriorityNonPreemptive extends Scheduler {
         Iterator tempit = arrived.iterator();
         while(tempit.hasNext()){
             Process dequeued = (Process)tempit.next();
-            System.out.println(timer-p.getArrival());
-            dequeued.setWaitingTime(timer - p.getArrival());
+            System.out.println(timer-dequeued.getArrival());
+            dequeued.setWaitingTime(timer - dequeued.getArrival());
             temp.add(dequeued);
             timer += dequeued.getBurst();
         }

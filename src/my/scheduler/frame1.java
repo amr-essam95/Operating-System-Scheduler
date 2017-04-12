@@ -435,7 +435,7 @@ public class frame1 extends javax.swing.JFrame {
         }
         scheduler.schedule(0.0);
         double waiting = scheduler.getAvgWaiting();
-        String w = Double.toString(waiting);
+        String w = String.format( "%.3f", waiting );
         String str = "The average waiting time is " + w + " time units.";
         jLabel7.setText(str);
         jLabel7.setVisible(true);
