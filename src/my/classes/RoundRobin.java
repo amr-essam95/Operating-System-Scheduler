@@ -17,6 +17,8 @@ import java.util.Queue;
  */
 public class RoundRobin extends Scheduler {
     public void schedule(double time){
+        double sum = 0;
+        int counter = 0;
         double timer = time;
         boolean enter = false;
         Collections.sort(processList, new Comparator <Process>() {      // Sort according to arrival time
@@ -50,10 +52,13 @@ public class RoundRobin extends Scheduler {
 //                    p.setWaitingTime(timer - p.getArrival());
                     temp.add(p);
                     timer += p.getBurst();
+                    double waitingTime = timer - p.getArrival() - p.getOriginalBurst();
+                    sum += waitingTime;
+                    counter ++;
                 }
                 else{
                     double burst = p.getBurst();
-                    Process ptemp = p;
+                    Process ptemp = new Process(p);
                     ptemp.setBurst(quantum);
                     ptemp.setRemainingTime(quantum);
 //                    ptemp.setWaitingTime(timer - p.getArrival());
@@ -74,12 +79,16 @@ public class RoundRobin extends Scheduler {
                         dequeued.setRemainingTime(dequeued.getBurst());
                         temp.add(dequeued);
                         timer += dequeued.getBurst();
+                        double waitingTime = timer - dequeued.getArrival() - dequeued.getOriginalBurst();
+                        sum += waitingTime;
+                        counter ++;
                     }
                     else{
                         double burst = dequeued.getBurst();
-                        dequeued.setBurst(quantum);
-                        dequeued.setRemainingTime(quantum);
-                        temp.add(dequeued);
+                        Process ptemp = new Process(dequeued);
+                        ptemp.setBurst(quantum);
+                        ptemp.setRemainingTime(quantum);
+                        temp.add(ptemp);
                         dequeued.setBurst(burst-quantum);
                         dequeued.setRemainingTime(burst-quantum);
                         q.add(dequeued);
@@ -120,12 +129,16 @@ public class RoundRobin extends Scheduler {
                     dequeued.setRemainingTime(dequeued.getBurst());
                     temp.add(dequeued);
                     timer += dequeued.getBurst();
+                    double waitingTime = timer - dequeued.getArrival() - dequeued.getOriginalBurst();
+                    sum += waitingTime;
+                    counter ++;
                 }
                 else{   
                     double burst = dequeued.getBurst();
-                    dequeued.setBurst(quantum);
-                    dequeued.setRemainingTime(quantum);
-                    temp.add(dequeued);
+                    Process ptemp = new Process(dequeued);
+                    ptemp.setBurst(quantum);
+                    ptemp.setRemainingTime(quantum);
+                    temp.add(ptemp);
                     dequeued.setBurst(burst-quantum);
                     dequeued.setRemainingTime(dequeued.getBurst());
                     q.add(dequeued);
@@ -153,12 +166,16 @@ public class RoundRobin extends Scheduler {
                     dequeued.setRemainingTime(dequeued.getBurst());
                     temp.add(dequeued);
                     timer += dequeued.getBurst();
+                    double waitingTime = timer - dequeued.getArrival() - dequeued.getOriginalBurst();
+                    sum += waitingTime;
+                    counter ++;
                 }
                 else{
                     double burst = dequeued.getBurst();
-                    dequeued.setRemainingTime(quantum);
-                    dequeued.setBurst(quantum);
-                    temp.add(dequeued);
+                    Process ptemp = new Process(dequeued);
+                    ptemp.setRemainingTime(quantum);
+                    ptemp.setBurst(quantum);
+                    temp.add(ptemp);
                     dequeued.setBurst(burst - quantum);
                     dequeued.setRemainingTime(burst - quantum);
                     q.add(dequeued);
@@ -174,11 +191,15 @@ public class RoundRobin extends Scheduler {
                 dequeued.setRemainingTime(burst);
                 temp.add(dequeued);
                 timer += burst;
+                double waitingTime = timer - dequeued.getArrival() - dequeued.getOriginalBurst();
+                sum += waitingTime;
+                counter ++;
             }
             else{
-                dequeued.setBurst(quantum);
-                dequeued.setRemainingTime(quantum);
-                temp.add(dequeued);
+                Process ptemp = new Process (dequeued);
+                ptemp.setBurst(quantum);
+                ptemp.setRemainingTime(quantum);
+                temp.add(ptemp);
                 dequeued.setBurst(burst-quantum);
                 dequeued.setBurst(burst-quantum);
                 q.add(dequeued);
@@ -186,6 +207,7 @@ public class RoundRobin extends Scheduler {
             }
                 
         }
+        setAvgWaiting(sum/counter);
         processList = temp;
     }
     public void scheduleWithInterrupt(LinkedList<Process> l,double time){
