@@ -70,6 +70,7 @@ public class frame1 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jDialog1 = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
         jComboBox1 = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
@@ -95,6 +96,17 @@ public class frame1 extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Scheduler");
@@ -377,6 +389,7 @@ public class frame1 extends javax.swing.JFrame {
             jTextField5.setVisible(false);
         }
         else if (choice.equals("First Come First Served")){
+            jComboBox2.setVisible(false);
             jLabel4.setVisible(false);
             jTextField4.setVisible(false);
             jTextField5.setVisible(false);
@@ -390,6 +403,7 @@ public class frame1 extends javax.swing.JFrame {
             jLabel6.setVisible(false);
         }
         else if (choice.equals("Round Robin")){
+            jComboBox2.setVisible(false);
             jLabel4.setVisible(false);
             jTextField4.setVisible(false);
             jTextField5.setVisible(true);
@@ -581,6 +595,7 @@ public class frame1 extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
