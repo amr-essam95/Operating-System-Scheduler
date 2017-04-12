@@ -5,6 +5,8 @@
  */
 package my.classes;
 import java.awt.Font;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
@@ -40,11 +42,11 @@ public class GanttChart extends Thread  // inheriting thread library
         initialPlace.setSize(50,50);
         initialPlace.setFont(new Font("Tahoma", Font.PLAIN, 10));
     }
-    public boolean draw(double sizeOfPeriod){
+    public boolean draw(double sizeOfPeriod,double f1){
   
         if (size > sizeOfPeriod){                                   // As long as the size is less than the intended size
-            String ti = String.format( "%.2f", (time-20)/1000.0 );  // labels are in seconds
-            time -= 20.0;
+            String ti = String.format( "%.2f", (time-f1)/1000.0 );  // labels are in seconds
+            time -= f1;
             JLabel l = new JLabel(ti);
             panel.add(l);
             l.setLocation(location,125);
@@ -53,8 +55,9 @@ public class GanttChart extends Thread  // inheriting thread library
             return false;
         }
         b.setSize(size,50);
+//        System.out.println(size);
         size+=1;
-        time += 20;
+        time += f1;
         location = location +1;
         panel.setSize( location+300,180 );
         panel.setPreferredSize(panel.getSize());
@@ -65,6 +68,24 @@ public class GanttChart extends Thread  // inheriting thread library
         Iterator it = process.iterator();
         panel.setVisible(true);                 
         initializeTimeLine();                   // create a label for the 0.0 in the timeline
+        double factor =50;
+        LinkedList lListCopy = new LinkedList();
+        lListCopy.addAll(process);
+        Collections.sort(lListCopy, new Comparator <Process>() {      // Sort according to arrival time
+            public int compare(Process p1, Process p2) {
+                return Double.compare(p1.getBurst(),p2.getBurst());
+            }
+        });
+        Iterator sortIt = lListCopy.iterator();
+        sortIt.hasNext();
+        Process y = (Process)sortIt.next();
+        if(y.getBurst()<0.01)
+            factor = 30000;
+        else if(y.getBurst()<0.1)
+            factor = 5000;
+        else if (y.getBurst()<0.5)
+            factor = 500;
+        
         while(it.hasNext()){
             Process p =  (Process) it.next() ;
             b = new JButton(p.getName());
@@ -75,7 +96,8 @@ public class GanttChart extends Thread  // inheriting thread library
 
             size = 0;
             double sizeOfPeriod ;
-            sizeOfPeriod = p.getBurst()*50;
+            sizeOfPeriod = p.getBurst()*factor;
+//            System.out.println(sizeOfPeriod);
             while (true)
             {
                 if (state == 0){
@@ -94,7 +116,7 @@ public class GanttChart extends Thread  // inheriting thread library
                     lastProcess = p;
                     return ;
                 }
-                boolean x = draw(sizeOfPeriod);
+                boolean x = draw(sizeOfPeriod,1000/factor);
                 if ( x==false){
                     p.setRemainingTime(0.0);
                     p.setIsFinished(true);
@@ -102,8 +124,9 @@ public class GanttChart extends Thread  // inheriting thread library
 //                    process.remove(p);
                     break;
                 }
+                double tempp = 900/factor;
                 try {
-                    sleep(18);                  // It was supposed to be 20 but it was slow
+                    sleep((long)tempp);                  // It was supposed to be 20 but it was slow
                 } catch (InterruptedException ex) {
                     Logger.getLogger(GanttChart.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -145,8 +168,10 @@ public class GanttChart extends Thread  // inheriting thread library
     public synchronized void clearPanel(){
         panel.removeAll();              // Clear the gantt chart
         state = 2;                      // state 2 is for interrupting the run function if it was running
-        if (!process.isEmpty())         
-            process.clear();            // clear the list of processes
+        if (process != null){
+            if (!process.isEmpty())         
+                process.clear();            // clear the list of processes
+            }
     }
     public synchronized int getStatus(){
         return state;

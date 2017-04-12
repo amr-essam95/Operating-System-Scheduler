@@ -18,8 +18,11 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 import my.classes.FCFS;
 import my.classes.RoundRobin;
+import my.classes.SJFNonPreemptive;
+import my.classes.SJFPreemptive;
 import my.classes.Scheduler;
 import static my.classes.Scheduler.extraProcessList;
+import static my.classes.Scheduler.fixedProcessList;
 import static my.classes.Scheduler.processList;
 
 /**
@@ -302,17 +305,17 @@ public class frame1 extends javax.swing.JFrame {
                 .addGap(60, 60, 60)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29)
-                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(29, 29, 29)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1215, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
@@ -411,9 +414,11 @@ public class frame1 extends javax.swing.JFrame {
             scheduler = new FCFS();
         }
         else if (choice.equals("Shortest Job First")){
-            // Case of 
-            scheduler = new FCFS();
-
+            String pre = jComboBox2.getSelectedItem().toString();
+            if (pre.equals("Non Preemptive"))
+                scheduler = new SJFNonPreemptive();
+            else if (pre.equals("Preemptive"))
+                scheduler = new SJFPreemptive();
         }
         else if (choice.equals("Round Robin")){
             // Case of RR
@@ -451,6 +456,8 @@ public class frame1 extends javax.swing.JFrame {
             p.setName(name);
             p.setArrival(Double.parseDouble(arrival));
             p.setBurst(Double.parseDouble(burst));
+            p.setRemainingTime(p.getBurst());
+            p.setOriginalBurst(p.getBurst());
             String choice = jComboBox1.getSelectedItem().toString();
             if (choice.equals("Round Robin")){
                 quantum = Integer.parseInt(jTextField5.getText());
@@ -460,6 +467,7 @@ public class frame1 extends javax.swing.JFrame {
             }
             if (!isPaused){
                 processList.add(p);
+                fixedProcessList.add(p);
             }
             else{
                 extraProcessList.add(p);
