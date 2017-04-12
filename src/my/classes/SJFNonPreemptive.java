@@ -81,7 +81,7 @@ public class SJFNonPreemptive extends Scheduler {
             if (tempit.hasNext()){
                 Process dequeued = (Process)tempit.next();
                 System.out.println(p.getArrival());
-                dequeued.setWaitingTime(timer - p.getArrival());
+                dequeued.setWaitingTime(timer - dequeued.getArrival());
                 temp.add(dequeued);
                 timer += dequeued.getBurst();
                 arrived.removeFirst();
@@ -90,7 +90,7 @@ public class SJFNonPreemptive extends Scheduler {
         Iterator tempit = arrived.iterator();
         while(tempit.hasNext()){
             Process dequeued = (Process)tempit.next();
-            dequeued.setWaitingTime(timer - p.getArrival());
+            dequeued.setWaitingTime(timer - dequeued.getArrival());
             temp.add(dequeued);
             timer += dequeued.getBurst();
         }
