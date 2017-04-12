@@ -18,8 +18,10 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 import my.classes.FCFS;
 import my.classes.RoundRobin;
+import my.classes.SJFNonPreemptive;
 import my.classes.Scheduler;
 import static my.classes.Scheduler.extraProcessList;
+import static my.classes.Scheduler.fixedProcessList;
 import static my.classes.Scheduler.processList;
 
 /**
@@ -411,9 +413,11 @@ public class frame1 extends javax.swing.JFrame {
             scheduler = new FCFS();
         }
         else if (choice.equals("Shortest Job First")){
-            // Case of 
-            scheduler = new FCFS();
-
+            String pre = jComboBox2.getSelectedItem().toString();
+            if (pre.equals("Non Preemptive"))
+                scheduler = new SJFNonPreemptive();
+            else if (pre.equals("Preemptive"))
+                scheduler = new SJFNonPreemptive();
         }
         else if (choice.equals("Round Robin")){
             // Case of RR
@@ -460,6 +464,7 @@ public class frame1 extends javax.swing.JFrame {
             }
             if (!isPaused){
                 processList.add(p);
+                fixedProcessList.add(p);
             }
             else{
                 extraProcessList.add(p);

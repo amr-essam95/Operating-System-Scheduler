@@ -53,6 +53,7 @@ public class GanttChart extends Thread  // inheriting thread library
             return false;
         }
         b.setSize(size,50);
+//        System.out.println(size);
         size+=1;
         time += 20;
         location = location +1;
@@ -76,6 +77,7 @@ public class GanttChart extends Thread  // inheriting thread library
             size = 0;
             double sizeOfPeriod ;
             sizeOfPeriod = p.getBurst()*50;
+//            System.out.println(sizeOfPeriod);
             while (true)
             {
                 if (state == 0){
@@ -145,8 +147,10 @@ public class GanttChart extends Thread  // inheriting thread library
     public synchronized void clearPanel(){
         panel.removeAll();              // Clear the gantt chart
         state = 2;                      // state 2 is for interrupting the run function if it was running
-        if (!process.isEmpty())         
-            process.clear();            // clear the list of processes
+        if (process != null){
+            if (!process.isEmpty())         
+                process.clear();            // clear the list of processes
+            }
     }
     public synchronized int getStatus(){
         return state;

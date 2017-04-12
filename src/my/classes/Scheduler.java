@@ -13,6 +13,8 @@ import java.util.LinkedList;
  */
 abstract public class Scheduler {
     public static LinkedList<Process> processList = new LinkedList<Process>();
+    public static LinkedList<Process> fixedProcessList = new LinkedList<Process>();
+    // fixed process list hold the list of processes that the user has entered.
     public static LinkedList<Process> extraProcessList = new LinkedList<Process>();
     protected static int quantum;
     protected static double avgWaitingTime = 0;

@@ -16,7 +16,11 @@ public class Process {
     private double remainingTime = burst;
     private boolean isFinished = false;
     private double waitingTime = 0;     // holds the waiting time of each process 
+    private double finishedTime = 0;
     
+    public double getFinishedTime(){
+        return finishedTime;
+    }
     public double getWaitingTime(){
         return waitingTime;
     }
@@ -37,6 +41,9 @@ public class Process {
     }
     public int getPriority(){
         return priority;
+    }
+    public void setFinishedTime(double f){
+        finishedTime = f;
     }
     public void setWaitingTime(double w){
         waitingTime = w;
