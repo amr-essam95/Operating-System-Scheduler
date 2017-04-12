@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.UIManager;
 import my.classes.FCFS;
 import my.classes.PriorityNonPreemptive;
+import my.classes.PriorityPreemptive;
 import my.classes.RoundRobin;
 import my.classes.SJFNonPreemptive;
 import my.classes.SJFPreemptive;
@@ -411,7 +412,7 @@ public class frame1 extends javax.swing.JFrame {
             if (pre.equals("Non Preemptive"))
                 scheduler = new PriorityNonPreemptive();
             else if (pre.equals("Preemptive"))
-                scheduler = new PriorityNonPreemptive();
+                scheduler = new PriorityPreemptive();
         }
         else if (choice.equals("First Come First Served")){
             // Case of FCFS scheduling
