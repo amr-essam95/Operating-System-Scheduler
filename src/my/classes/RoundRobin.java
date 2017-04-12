@@ -33,7 +33,11 @@ public class RoundRobin extends Scheduler {
                 p = (Process)it.next();
             }
             enter = false;
-            if(( p.getArrival() > timer )&&(q.isEmpty())){
+        /*  
+            Case if at time = timer no process has arrived and the queue of processes is empty
+            In this case we add an idle process until the arrival of the first process
+        */
+            if(( p.getArrival() > timer )&&(q.isEmpty())){  
                 Process idle = new Process();
                 idle.setName("Idle");
                 double idleTime = p.getArrival() - timer ;
