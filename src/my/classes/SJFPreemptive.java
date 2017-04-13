@@ -81,7 +81,6 @@ public class SJFPreemptive extends Scheduler {
             boolean notInterrupted = false;
             if (tempit.hasNext()){
                 Process dequeued = (Process)tempit.next();
-                System.out.println("fu");
                 double assumedTimeOfFinish = timer + dequeued.getBurst();
                 Process t;
                 it = processList.iterator();
@@ -118,7 +117,6 @@ public class SJFPreemptive extends Scheduler {
                     temp.add(dequeued);
                     double waitingTime = timer - dequeued.getArrival();
                     timer += dequeued.getBurst();
-//                    System.out.println(waitingTime);
                     sum += waitingTime;
                 }
                 
@@ -133,7 +131,6 @@ public class SJFPreemptive extends Scheduler {
             Process rem = (Process)it.next();
             temp.add(rem);
             double waitingTime = timer - rem.getArrival();
-            System.out.println(waitingTime);
             sum += waitingTime;
             timer += rem.getBurst();
         }

@@ -56,11 +56,7 @@ public class GanttChart extends Thread  // inheriting thread library
             l.setFont(new Font("Tahoma", Font.PLAIN, 10));
             return false;
         }
-//        b.setMargin(new Insets(0, 0, 0, 0));
-//        b.setBorder(new EmptyBorder(0, 0, 0, 0));
         b.setSize(size,50);
-        
-//        System.out.println(size);
         size+=1;
         time += f1;
         location = location +1;
@@ -102,7 +98,6 @@ public class GanttChart extends Thread  // inheriting thread library
             size = 0;
             double sizeOfPeriod ;
             sizeOfPeriod = p.getBurst()*factor;
-//            System.out.println(sizeOfPeriod);
             while (true)
             {
                 if (state == 0){
