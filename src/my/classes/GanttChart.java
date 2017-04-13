@@ -5,6 +5,7 @@
  */
 package my.classes;
 import java.awt.Font;
+import java.awt.Insets;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -14,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.JLabel;
 import javax.swing.JPanel; 
+import javax.swing.border.EmptyBorder;
 
 public class GanttChart extends Thread  // inheriting thread library
 {
@@ -54,7 +56,10 @@ public class GanttChart extends Thread  // inheriting thread library
             l.setFont(new Font("Tahoma", Font.PLAIN, 10));
             return false;
         }
+//        b.setMargin(new Insets(0, 0, 0, 0));
+//        b.setBorder(new EmptyBorder(0, 0, 0, 0));
         b.setSize(size,50);
+        
 //        System.out.println(size);
         size+=1;
         time += f1;
