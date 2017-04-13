@@ -5,6 +5,7 @@
  */
 package my.scheduler;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import my.classes.Process;
 import my.classes.List;
@@ -45,7 +46,10 @@ public class frame1 extends javax.swing.JFrame {
         catch (Exception ex) { 
             ex.printStackTrace(); 
        }
+//    setLayout(new GridLayout(10, 2, 0, 0));
+
     initComponents();
+//    jPanel3.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     jComboBox2.setVisible(false);
     jLabel7.setVisible(false);
     jLabel8.setVisible(false);
@@ -483,11 +487,17 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here: 
         jLabel8.setVisible(false);
         jLabel5.setVisible(false);
         String name,arrival,burst,priority;
         name = jTextField1.getText();
+        boolean bool =model.contains(name);
+        if(bool){
+            jLabel5.setText("This name already exists");
+            jLabel5.setVisible(true);
+            return;
+        }
         arrival = jTextField3.getText();
         burst = jTextField2.getText();
         priority = jTextField4.getText();
