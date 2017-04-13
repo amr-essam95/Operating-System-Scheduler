@@ -56,7 +56,7 @@ public class frame1 extends javax.swing.JFrame {
     jLabel6.setVisible(false);
     jTextField5.setVisible(false);
     jButton5.setEnabled(false);
-    model.addElement("Name");
+//    model.addElement("Name");
         
     }
 
@@ -518,7 +518,10 @@ public class frame1 extends javax.swing.JFrame {
                 isListChanged = true;
                 System.out.println("list is changed");
             }
-            String x = name;
+            String x = "  Name: " + name + ",     " + "Burst Time: " + p.getBurst() + ",     " + "Arrival Time: " + p.getArrival();
+            if (choice.equals("Priority")){
+                x =  x + ",     " + "Priority: " + p.getPriority();
+            }
             model.addElement(x);
             jList1.setModel(model);
         }
