@@ -43,6 +43,9 @@ public class RoundRobin extends Scheduler {
                 Process idle = new Process();
                 idle.setName("Idle");
                 double idleTime = p.getArrival() - timer ;
+                System.out.println(p.getName());
+                System.out.println(p.getArrival());
+                System.out.println(timer);
                 idle.setBurst(idleTime);
                 idle.setRemainingTime(idleTime);
                 temp.add(idle);

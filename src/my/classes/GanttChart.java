@@ -69,7 +69,7 @@ public class GanttChart extends Thread  // inheriting thread library
         Iterator it = process.iterator();
         panel.setVisible(true);                 
         initializeTimeLine();                   // create a label for the 0.0 in the timeline
-        double factor =50;
+        double factor =100;
         LinkedList lListCopy = new LinkedList();
         lListCopy.addAll(process);
         Collections.sort(lListCopy, new Comparator <Process>() {      // Sort according to arrival time
@@ -80,13 +80,14 @@ public class GanttChart extends Thread  // inheriting thread library
         Iterator sortIt = lListCopy.iterator();
         sortIt.hasNext();
         Process y = (Process)sortIt.next();
+        if(y.getBurst()==0)
+            y = (Process)sortIt.next();
         if(y.getBurst()<0.01)
             factor = 30000;
         else if(y.getBurst()<0.1)
             factor = 5000;
         else if (y.getBurst()<0.5)
             factor = 500;
-        
         while(it.hasNext()){
             Process p =  (Process) it.next() ;
             b = new JButton(p.getName());

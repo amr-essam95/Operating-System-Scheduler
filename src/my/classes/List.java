@@ -12,4 +12,5 @@ import javax.swing.DefaultListModel;
  */
 public class List {
     public static DefaultListModel model = new DefaultListModel();
+    public static DefaultListModel model2 = new DefaultListModel();
 }

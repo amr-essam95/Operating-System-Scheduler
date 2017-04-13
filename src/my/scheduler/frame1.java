@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.UIManager;
 import my.classes.FCFS;
+import static my.classes.List.model2;
 import my.classes.PriorityNonPreemptive;
 import my.classes.PriorityPreemptive;
 import my.classes.RoundRobin;
@@ -439,6 +440,7 @@ public class frame1 extends javax.swing.JFrame {
             }
             else if (choice.equals("Shortest Job First")){
                 String pre = jComboBox2.getSelectedItem().toString();
+                System.out.println(pre);
                 if (pre.equals("Non Preemptive"))
                     scheduler = new SJFNonPreemptive();
                 else if (pre.equals("Preemptive"))
@@ -486,7 +488,7 @@ public class frame1 extends javax.swing.JFrame {
         jLabel5.setVisible(false);
         String name,arrival,burst,priority;
         name = jTextField1.getText();
-        boolean bool =model.contains(name);
+        boolean bool =model2.contains(name);
         if(bool){
             jLabel5.setText("This name already exists");
             jLabel5.setVisible(true);
@@ -523,6 +525,7 @@ public class frame1 extends javax.swing.JFrame {
                 x =  x + ",     " + "Priority: " + p.getPriority();
             }
             model.addElement(x);
+            model2.addElement(p.getName());
             jList1.setModel(model);
         }
         catch(NumberFormatException e){
@@ -566,6 +569,8 @@ public class frame1 extends javax.swing.JFrame {
             processList.clear();
         if (!model.isEmpty())
             model.removeAllElements();
+        if (!model2.isEmpty())
+            model2.removeAllElements();
         g.clearPanel();
         jButton3.setEnabled(true);
         g = null;
