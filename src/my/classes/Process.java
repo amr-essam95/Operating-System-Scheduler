@@ -16,7 +16,6 @@ public class Process {
     private double remainingTime = burst;
     private boolean isFinished = false;
     private double waitingTime = 0;     // holds the waiting time of each process 
-    private double finishedTime = 0;
     private double originalBurst ;
     
     public Process(){}
@@ -28,14 +27,10 @@ public class Process {
         remainingTime = x.remainingTime;
         isFinished = x.isFinished;
         waitingTime = x.waitingTime;
-        finishedTime = x.finishedTime;
         originalBurst = x.originalBurst;
     }
     public double getOriginalBurst(){
         return originalBurst;
-    }
-    public double getFinishedTime(){
-        return finishedTime;
     }
     public double getWaitingTime(){
         return waitingTime;
@@ -60,9 +55,6 @@ public class Process {
     }
     public void setOriginalBurst(double o){
         originalBurst = o;
-    }
-    public void setFinishedTime(double f){
-        finishedTime = f;
     }
     public void setWaitingTime(double w){
         waitingTime = w;

@@ -33,7 +33,6 @@ public class FCFS extends Scheduler{
         if (p.getArrival() <= timer){                                   // Case if there is available process to schedule                     
             temp.add(p);
             p.setWaitingTime(timer - p.getArrival());
-            System.out.println(timer-p.getArrival());
             timer += p.getBurst();
         }
         else {                                                          // Case if no avaialable processes yet
@@ -44,9 +43,7 @@ public class FCFS extends Scheduler{
             idle.setRemainingTime(idleTime);
             temp.add(idle);                                             // Add idle state 
             timer = timer + idleTime;
-            System.out.println(timer -p.getArrival());
             p.setWaitingTime(timer - p.getArrival());
-            System.out.println(p.getWaitingTime());
             temp.add(p);
             timer += p.getBurst();
         }
