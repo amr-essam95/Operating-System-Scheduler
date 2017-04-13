@@ -83,7 +83,7 @@ public class PriorityNonPreemptive extends Scheduler {
 //                System.out.println(p.getArrival());
                 dequeued.setWaitingTime(timer - dequeued.getArrival());
 //                System.out.println(p)
-                System.out.println(timer-p.getArrival());
+                System.out.println(timer-dequeued.getArrival());
                 temp.add(dequeued);
                 timer += dequeued.getBurst();
                 arrived.removeFirst();
@@ -104,8 +104,10 @@ public class PriorityNonPreemptive extends Scheduler {
         double sum = 0;
         while(it.hasNext()){
             Process ptemp = (Process)it.next();
-            sum += ptemp.getWaitingTime();
-            counter ++;
+            if (!ptemp.getName().equals("Idle")){
+                sum += ptemp.getWaitingTime();
+                counter ++;
+            }
         }
          setAvgWaiting(sum/counter);
     }

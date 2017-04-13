@@ -101,8 +101,10 @@ public class SJFNonPreemptive extends Scheduler {
         double sum = 0;
         while(it.hasNext()){
             Process ptemp = (Process)it.next();
-            sum += ptemp.getWaitingTime();
-            counter ++;
+            if(!ptemp.getName().equals("Idle")){
+                sum += ptemp.getWaitingTime();
+                counter ++;
+            }
         }
          setAvgWaiting(sum/counter);
     }
