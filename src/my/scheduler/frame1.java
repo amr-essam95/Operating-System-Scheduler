@@ -48,6 +48,7 @@ public class frame1 extends javax.swing.JFrame {
     initComponents();
     jComboBox2.setVisible(false);
     jLabel7.setVisible(false);
+    jLabel8.setVisible(false);
     g = new GanttChart(jPanel3);
     jLabel4.setVisible(false);
     jTextField4.setVisible(false);
@@ -90,6 +91,7 @@ public class frame1 extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -199,6 +201,8 @@ public class frame1 extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Georgia", 2, 11)); // NOI18N
         jLabel6.setText("Quantum:");
 
+        jLabel8.setText("jLabel8");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -210,7 +214,10 @@ public class frame1 extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -259,17 +266,20 @@ public class frame1 extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton5))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18))
         );
 
@@ -421,45 +431,58 @@ public class frame1 extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         String choice = jComboBox1.getSelectedItem().toString();
-        if (choice.equals("Priority")){
-            String pre = jComboBox2.getSelectedItem().toString();
-            if (pre.equals("Non Preemptive"))
-                scheduler = new PriorityNonPreemptive();
-            else if (pre.equals("Preemptive"))
-                scheduler = new PriorityPreemptive();
-        }
-        else if (choice.equals("First Come First Served")){
-            // Case of FCFS scheduling
-            scheduler = new FCFS();
-        }
-        else if (choice.equals("Shortest Job First")){
-            String pre = jComboBox2.getSelectedItem().toString();
-            if (pre.equals("Non Preemptive"))
-                scheduler = new SJFNonPreemptive();
-            else if (pre.equals("Preemptive"))
-                scheduler = new SJFPreemptive();
-        }
-        else if (choice.equals("Round Robin")){
-            // Case of RR
-            scheduler = new RoundRobin();
-            scheduler.setQuantum(quantum);
+        jLabel8.setVisible(false);
+        boolean ok = true;
+        try{
+            if (choice.equals("Priority")){
+                String pre = jComboBox2.getSelectedItem().toString();
+                if (pre.equals("Non Preemptive"))
+                    scheduler = new PriorityNonPreemptive();
+                else if (pre.equals("Preemptive"))
+                    scheduler = new PriorityPreemptive();
+            }
+            else if (choice.equals("First Come First Served")){
+                // Case of FCFS scheduling
+                scheduler = new FCFS();
+            }
+            else if (choice.equals("Shortest Job First")){
+                String pre = jComboBox2.getSelectedItem().toString();
+                if (pre.equals("Non Preemptive"))
+                    scheduler = new SJFNonPreemptive();
+                else if (pre.equals("Preemptive"))
+                    scheduler = new SJFPreemptive();
+            }
+            else if (choice.equals("Round Robin")){
+                // Case of RR
+                scheduler = new RoundRobin();
+                quantum = Integer.parseInt(jTextField5.getText());
+                scheduler.setQuantum(quantum);
 
+            }
+            else{
+                scheduler = new FCFS();
+            }
         }
-        else{
-            scheduler = new FCFS();
+        catch(Exception e){
+            ok = false;
+            jLabel8.setText("Please enter valid number in quantum");
+            jLabel8.setVisible(true);
+            System.out.println("enter quantum");
         }
-        scheduler.schedule(0.0);
-        double waiting = scheduler.getAvgWaiting();
-        String w = String.format( "%.3f", waiting );
-        String str = "The average waiting time is " + w + " time units.";
-        jLabel7.setText(str);
-        jLabel7.setVisible(true);
-        g.setProcess(processList);
-        g.setPanel(jPanel3);
-        g.start();
-        jButton3.setEnabled(false);
-        jButton2.setEnabled(false);
-        jComboBox1.setEnabled(false);
+        if(ok){
+            scheduler.schedule(0.0);
+            double waiting = scheduler.getAvgWaiting();
+            String w = String.format( "%.3f", waiting );
+            String str = "The average waiting time is " + w + " time units.";
+            jLabel7.setText(str);
+            jLabel7.setVisible(true);
+            g.setProcess(processList);
+            g.setPanel(jPanel3);
+            g.start();
+            jButton3.setEnabled(false);
+            jButton2.setEnabled(false);
+            jComboBox1.setEnabled(false);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -478,9 +501,9 @@ public class frame1 extends javax.swing.JFrame {
             p.setRemainingTime(p.getBurst());
             p.setOriginalBurst(p.getBurst());
             String choice = jComboBox1.getSelectedItem().toString();
-            if (choice.equals("Round Robin")){
-                quantum = Integer.parseInt(jTextField5.getText());
-            }
+//            if (choice.equals("Round Robin")){
+//                quantum = Integer.parseInt(jTextField5.getText());
+//            }
             if (choice.equals("Priority")){
                 p.setPriority(Integer.parseInt(priority));
             }
@@ -603,6 +626,7 @@ public class frame1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
