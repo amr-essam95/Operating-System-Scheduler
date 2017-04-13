@@ -30,34 +30,21 @@ public class FCFS extends Scheduler{
     LinkedList temp = new LinkedList();
     while (it.hasNext()){
         Process p = (Process) it.next();
-//        System.out.print("decision is here");
-//        System.out.print(p.getArrival());
-//        System.out.print("    ");
-//        System.out.print(timer);
-//        System.out.println("    ");
         if (p.getArrival() <= timer){                                   // Case if there is available process to schedule                     
             temp.add(p);
             p.setWaitingTime(timer - p.getArrival());
+            System.out.println(timer-p.getArrival());
             timer += p.getBurst();
-//            System.out.println("ok");
         }
         else {                                                          // Case if no avaialable processes yet
             Process idle = new Process();
-//            idle.setArrival(timer);
-//            System.out.print("erro is here");
-//            System.out.print(p.getArrival());
-//            System.out.print("    ");
-//            System.out.print(timer);
-//            System.out.print("    ");
             double idleTime = p.getArrival()-timer;
-//            System.out.println(idleTime);
             idle.setBurst(idleTime);
             idle.setName("Idle");
             idle.setRemainingTime(idleTime);
             temp.add(idle);                                             // Add idle state 
-//            p.setArrival(timer+idleTime);
             timer = timer + idleTime;
-            System.out.println(p.getArrival());
+            System.out.println(timer -p.getArrival());
             p.setWaitingTime(timer - p.getArrival());
             System.out.println(p.getWaitingTime());
             temp.add(p);
@@ -70,14 +57,10 @@ public class FCFS extends Scheduler{
     int counter = 0;
     while(it.hasNext()){
         Process p = (Process)it.next();
-//        System.out.print(p.getBurst());
-//        System.out.print("    ");
-//        System.out.print(p.getName());
-//        System.out.print("    ");
-//        System.out.println(p.getRemainingTime());
-        waiting += p.getWaitingTime();
-        counter ++;
-        
+        if (!p.getName().equals("Idle")){
+            waiting += p.getWaitingTime();
+            counter ++;
+        }
     }
     setAvgWaiting(waiting/counter);
     }
