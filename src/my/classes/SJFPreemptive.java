@@ -118,7 +118,7 @@ public class SJFPreemptive extends Scheduler {
                     temp.add(dequeued);
                     double waitingTime = timer - dequeued.getArrival();
                     timer += dequeued.getBurst();
-                    System.out.println(waitingTime);
+//                    System.out.println(waitingTime);
                     sum += waitingTime;
                 }
                 
