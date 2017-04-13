@@ -423,6 +423,7 @@ public class frame1 extends javax.swing.JFrame {
         String choice = jComboBox1.getSelectedItem().toString();
         jLabel8.setVisible(false);
         jLabel5.setVisible(false);
+        jButton2.setEnabled(true);
         boolean ok = true;
         try{
             if (choice.equals("Priority")){
@@ -529,7 +530,7 @@ public class frame1 extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        jButton3.setEnabled(true);
+//        jButton3.setEnabled(true);
         jButton5.setEnabled(true);
         jButton4.setEnabled(false);
         jButton6.setEnabled(false);
@@ -556,6 +557,7 @@ public class frame1 extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         jButton2.setEnabled(true);
+        jButton3.setEnabled(true);
         jComboBox1.setEnabled(true);
         if (!processList.isEmpty())
             processList.clear();
