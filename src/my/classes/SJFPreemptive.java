@@ -7,7 +7,6 @@ package my.classes;
 
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Deque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import static my.classes.Scheduler.processList;
@@ -115,7 +114,7 @@ public class SJFPreemptive extends Scheduler {
                 }
                 if(notInterrupted){
                     temp.add(dequeued);
-                    double waitingTime = timer - dequeued.getArrival();
+                    double waitingTime = timer +dequeued.getBurst() - dequeued.getArrival() - dequeued.getOriginalBurst();
                     timer += dequeued.getBurst();
                     sum += waitingTime;
                 }
@@ -130,7 +129,7 @@ public class SJFPreemptive extends Scheduler {
         while(it.hasNext()){
             Process rem = (Process)it.next();
             temp.add(rem);
-            double waitingTime = timer - rem.getArrival();
+            double waitingTime = timer + rem.getBurst() - rem.getArrival() - rem.getOriginalBurst();
             sum += waitingTime;
             timer += rem.getBurst();
         }

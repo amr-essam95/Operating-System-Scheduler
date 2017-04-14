@@ -5,7 +5,6 @@
  */
 package my.classes;
 import java.awt.Font;
-import java.awt.Insets;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -15,7 +14,6 @@ import java.util.logging.Logger;
 import javax.swing.JButton; 
 import javax.swing.JLabel;
 import javax.swing.JPanel; 
-import javax.swing.border.EmptyBorder;
 
 public class GanttChart extends Thread  // inheriting thread library
 {
@@ -69,7 +67,7 @@ public class GanttChart extends Thread  // inheriting thread library
         Iterator it = process.iterator();
         panel.setVisible(true);                 
         initializeTimeLine();                   // create a label for the 0.0 in the timeline
-        double factor =100;
+        double factor =50;
         LinkedList lListCopy = new LinkedList();
         lListCopy.addAll(process);
         Collections.sort(lListCopy, new Comparator <Process>() {      // Sort according to arrival time
@@ -88,6 +86,8 @@ public class GanttChart extends Thread  // inheriting thread library
             factor = 5000;
         else if (y.getBurst()<0.5)
             factor = 500;
+        else if (y.getBurst() <1.2)
+            factor = 75;
         while(it.hasNext()){
             Process p =  (Process) it.next() ;
             b = new JButton(p.getName());

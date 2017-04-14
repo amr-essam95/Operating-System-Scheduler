@@ -43,9 +43,6 @@ public class RoundRobin extends Scheduler {
                 Process idle = new Process();
                 idle.setName("Idle");
                 double idleTime = p.getArrival() - timer ;
-                System.out.println(p.getName());
-                System.out.println(p.getArrival());
-                System.out.println(timer);
                 idle.setBurst(idleTime);
                 idle.setRemainingTime(idleTime);
                 temp.add(idle);
@@ -70,9 +67,25 @@ public class RoundRobin extends Scheduler {
                     temp.add(ptemp);
                     p.setBurst(burst - quantum);
                     p.setRemainingTime(burst - quantum);
+                    // mfrod n7ot while ta5od kol elly gej
+                    ///////////////////////////////////////////////////////////////////
+                    while(it.hasNext()){
+                        Process tempP = (Process)it.next();
+                        if (tempP.getArrival() <= (timer+quantum) ){
+                            Process x = new Process(tempP);
+                            q.add(x);
+                            it.remove();
+                        }
+                        else{
+    //                        enter = true;
+                            it = processList.iterator();
+    //                        p = tempP;
+                            break;
+                        }
+                    } 
                     q.add(p);
                     timer += quantum;
-                    it.remove();
+                    processList.remove(p);
                     it = processList.iterator();
                 }
             }
@@ -112,7 +125,6 @@ public class RoundRobin extends Scheduler {
                         temp.add(ptemp);
                         dequeued.setBurst(burst-quantum);
                         dequeued.setRemainingTime(burst-quantum);
-                        q.add(dequeued);
                         timer += quantum;
                         while(it.hasNext()){
                             Process tempP = (Process)it.next();
@@ -128,8 +140,9 @@ public class RoundRobin extends Scheduler {
                                 break;
                             }
                         } 
+                        q.add(dequeued);
                     }
-                    if (q.isEmpty()){
+                    if (q.isEmpty()&&p.getArrival()> timer){
                         finished = true;
                     }
                 }
@@ -152,17 +165,6 @@ public class RoundRobin extends Scheduler {
                 q.add(p);
                 it.remove();
                 it = processList.iterator();
-//                while(it.hasNext()){
-//                    Process tempP = (Process)it.next();
-//                    if (tempP.getArrival() <= timer){
-//                        q.add(tempP);
-//                    }
-//                    else{
-//                        enter = true;
-//                        p = tempP;
-//                        break;
-//                    }
-//                }
                 Process dequeued = q.poll();
                 if (dequeued.getBurst() <= quantum){
                     dequeued.setRemainingTime(dequeued.getBurst());
@@ -176,9 +178,7 @@ public class RoundRobin extends Scheduler {
                             it.remove();
                         }
                         else{
-    //                        enter = true;
                             it = processList.iterator();
-    //                        p = tempP;
                             break;
                         }
                     } 
@@ -200,9 +200,7 @@ public class RoundRobin extends Scheduler {
                             it.remove();
                         }
                         else{
-    //                        enter = true;
                             it = processList.iterator();
-    //                        p = tempP;
                             break;
                         }
                     } 
@@ -231,9 +229,7 @@ public class RoundRobin extends Scheduler {
                             it.remove();
                         }
                         else{
-    //                        enter = true;
                             it = processList.iterator();
-    //                        p = tempP;
                             break;
                         }
                     } 
@@ -257,9 +253,7 @@ public class RoundRobin extends Scheduler {
                         it.remove();
                     }
                     else{
-//                        enter = true;
                         it = processList.iterator();
-//                        p = tempP;
                         break;
                     }
                 } 
