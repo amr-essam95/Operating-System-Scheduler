@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package my.classes;
-import java.util.*;
 import javax.swing.DefaultListModel;
 /**
  *

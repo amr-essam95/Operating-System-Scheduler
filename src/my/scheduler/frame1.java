@@ -4,18 +4,9 @@
  * and open the template in the editor.
  */
 package my.scheduler;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import my.classes.Process;
-import my.classes.List;
 import my.classes.GanttChart;
-import java.util.*;
 import static my.classes.List.model;
-import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JButton; 
 import javax.swing.UIManager;
 import my.classes.FCFS;
 import static my.classes.List.model2;
